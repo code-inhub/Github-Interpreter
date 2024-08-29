@@ -4,11 +4,23 @@ import { TbMailFilled } from "react-icons/tb";
 import { MdLockOutline } from "react-icons/md";
 import { motion } from "framer-motion";
 import "../../styles/login.css";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../api.js";
 
 const Login = () => {
   const [emailAddress, setEmailAdress] = useState("");
   const [password, setPassword] = useState("");
-  const componentLoading = false;
+
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    login(emailAddress, password)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className="login-page">
       {/* <ToastContainer /> */}
@@ -37,8 +49,8 @@ const Login = () => {
                 type={"password"}
                 label={"Password"}
               />
-              <motion.div className="login-button">
-                <p>{!componentLoading ? "LOGIN" : <InputLoader />}</p>
+              <motion.div className="login-button" onClick={handleSubmit}>
+                <p>LOGIN</p>
               </motion.div>
               <p className="text-center text-white">
                 Don't have an account ? {"  "}
