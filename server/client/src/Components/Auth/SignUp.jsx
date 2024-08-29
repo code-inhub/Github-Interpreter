@@ -5,12 +5,24 @@ import { MdLockOutline } from "react-icons/md";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { motion } from "framer-motion";
 import "../../styles/signup.css";
+import { useNavigate } from "react-router-dom";
+import { register } from "../../api.js";
 
 const Login = () => {
   const [emailAddress, setEmailAdress] = useState("");
   const [password, setPassword] = useState("");
-  const [userName, setUseName] = useState("");
+  const [userName, setUserName] = useState("");
   const componentLoading = false;
+
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    console.log("data", userName, emailAddress, password);
+    register(userName, emailAddress, password)
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className="login-page">
       {/* <ToastContainer /> */}
@@ -27,7 +39,7 @@ const Login = () => {
                 // placeholder={"Password"}
                 icon={<MdDriveFileRenameOutline className="text-white" />}
                 inputState={userName}
-                inputStateFunc={setUseName}
+                inputStateFunc={setUserName}
                 type={"text"}
                 label={"Name"}
               />
@@ -47,8 +59,8 @@ const Login = () => {
                 type={"password"}
                 label={"Password"}
               />
-              <motion.div className="login-button">
-                <p>{!componentLoading ? "SIGNUP" : <InputLoader />}</p>
+              <motion.div className="login-button" onClick={handleSubmit}>
+                <p>SIGNUP</p>
               </motion.div>
               <p className="text-center text-white">
                 Have an account ? {"  "}
