@@ -5,6 +5,8 @@ const {
   logoutController,
 } = require("../controllers/authController");
 
+const verifyJWT = require("../middlewares/authMiddleware");
+
 //router object
 const router = express.Router();
 
@@ -18,4 +20,4 @@ router.post("/login", loginController);
 //LOGOUT
 router.post("/logout", logoutController);
 
-module.exports = router;
+module.exports = router; 
