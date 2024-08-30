@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Input from "../AuthComponents/Input.jsx";
 import { TbMailFilled } from "react-icons/tb";
 import { MdLockOutline } from "react-icons/md";
@@ -17,6 +17,7 @@ const Login = () => {
     login(emailAddress, password)
       .then((data) => {
         console.log(data);
+        navigate("/test");
       })
       .catch((error) => console.log(error));
   };

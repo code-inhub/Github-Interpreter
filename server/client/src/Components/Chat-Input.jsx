@@ -21,7 +21,7 @@ const Input = ({
     border: "2px solid #ffffff", // Change color if needed
     backgroundColor: "",
     marginBottom: "8px",
-    width: "60%",
+    width: "50%",
   };
   const inputStyle = {
     width: "100%",

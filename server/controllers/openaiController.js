@@ -1,10 +1,50 @@
 const dotenv = require("dotenv");
+import { getGithubCode } from './scrapGithub';
 dotenv.config();
+const getGithubCode = require("./scrapGithub");
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
+
 const openai = new OpenAIApi(configuration);
+
+exports.codeCorrectionController = async (req, res) => {
+  try {
+    const { repoUrl,issue } = req.body;
+    const code = await getGithubCode(repoUrl);
+
+    const { data } = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: "You are a code correction, completion, and explaining assistant. You need to provide the user appropriate and correct results after understanding their code. Provide necessary code if needed. You will be provided with all the file codes and their paths. Also, send all responses at once.",
+        },
+        {
+          role: "user",
+          content: `Problem Description: ${issue}`,
+        },
+        {
+          role: "user",
+          content: `Code: ${code}`,
+        },
+      ],
+    });
+
+    if (data && data.choices[0].message.content) {
+      return res.status(200).json(data.choices[0].message.content);
+    } else {
+      return res.status(400).json({ message: "No valid response from OpenAI" });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
 
 exports.summaryController = async (req, res) => {
   try {

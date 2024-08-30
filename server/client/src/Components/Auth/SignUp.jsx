@@ -19,7 +19,9 @@ const Login = () => {
   const handleSubmit = () => {
     console.log("data", userName, emailAddress, password);
     register(userName, emailAddress, password)
-      .then((data) => console.log(data))
+      .then((data) =>{ console.log(data);
+        navigate("/test");
+      })
       .catch((error) => console.log(error));
   };
 
