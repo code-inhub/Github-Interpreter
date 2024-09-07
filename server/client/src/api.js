@@ -55,10 +55,6 @@ export const logout = async (userName, email, password) => {
     const response = await axios.post(
       `${baseURL}/logout`,
       {
-        email,
-        password,
-      },
-      {
         headers: {
           "Content-Type": "application/json",
         },

@@ -1,5 +1,4 @@
 const dotenv = require("dotenv");
-import { getGithubCode } from './scrapGithub';
 dotenv.config();
 const getGithubCode = require("./scrapGithub");
 const { Configuration, OpenAIApi } = require("openai");
