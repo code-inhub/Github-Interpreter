@@ -20,7 +20,7 @@ const processFiles = async (files) => {
         "jpg", "jpeg", "png", "gfg", "gif", "ico", "svg", 
         "md", "txt", "css"
     ];
-
+ 
     let allData = "";
 
     for (const item of files) {
@@ -63,7 +63,7 @@ const fetchDataForDirectory = async (directoryUrl) => {
     }
 };
 
-export const getGithubCode = async (repo_url) => {
+const getGithubCode = async (repo_url) => {
     // Check if data is already cached
     let cachedData = cache.get(repo_url);
     if (cachedData) {
@@ -98,4 +98,6 @@ export const getGithubCode = async (repo_url) => {
         return Promise.reject(err);
     }
 };
+
+module.exports = { getGithubCode };
 

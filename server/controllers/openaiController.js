@@ -1,36 +1,33 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const getGithubCode = require("./scrapGithub");
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-const openai = new OpenAIApi(configuration);
+const {getGithubCode} = require("./scrapGithub");
+const { OpenAI } = require("openai");
+console.log(process.env.OPENAI_API_KEY);
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
 exports.codeCorrectionController = async (req, res) => {
   try {
     const { repoUrl,issue } = req.body;
     const code = await getGithubCode(repoUrl);
 
-    const { data } = await openai.createChatCompletion({
+    const data  = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {
           role: "system",
           content: "You are a code correction, completion, and explaining assistant. You need to provide the user appropriate and correct results after understanding their code. Provide necessary code if needed. You will be provided with all the file codes and their paths. Also, send all responses at once.",
-        },
-        {
-          role: "user",
+        }, 
+        { 
+          role: "user", 
           content: `Problem Description: ${issue}`,
         },
         {
-          role: "user",
-          content: `Code: ${code}`,
+          role: "user", 
+          content: `Code: ${code}`, 
         },
       ],
     });
-
+    
     if (data && data.choices[0].message.content) {
       return res.status(200).json(data.choices[0].message.content);
     } else {

@@ -12,7 +12,7 @@ const authRoutes = require("./routes/authRoutes");
 dotenv.config();
 
 connectDB();
-
+ 
 const app = express();
 
 //middlewares
@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 8080;
 //   res.send("API is running....");
 // } );
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/openai", verifyJWT, require("./routes/openaiRoutes"));
+app.use("/api/v1/openai",verifyJWT,require("./routes/openaiRoutes"));
 
 //listen server
 app.listen(PORT, () => {

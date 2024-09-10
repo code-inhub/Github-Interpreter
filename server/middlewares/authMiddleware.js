@@ -1,8 +1,7 @@
 const errorResponse  = require("../utils/errorResponse.js");
 const jwt = require("jsonwebtoken");
 const  User= require("../models/userModel.js");
-
-exports.verifyJWT = async (req, res, next) => {
+const verifyJWT = async (req, res, next) => {
   try {
     let token = req.cookies?.authToken || req.header("Authorization")?.replace("Bearer ", "");
 
@@ -65,3 +64,5 @@ exports.verifyJWT = async (req, res, next) => {
     return next(new errorResponse(error?.message || "Unauthorized request", 401));
   }
 };
+
+module.exports = verifyJWT;
