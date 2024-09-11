@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     username:{
         type:String,
         required:[true,'Please enter username'],
-        trim:true,
+        trim:true, 
         unique:true,
         lowercase:true,
     },
@@ -22,10 +22,10 @@ const userSchema = new mongoose.Schema({
         required:[true,'Please enter password'],
         minLenght:[6,'Password should be minimum 6 characters'],
     },
-    refreshToken:{
+    refreshToken:{ 
         type:String,
     },  
-    
+     
 }, { 
     timestamps:true,
 }); 
@@ -51,7 +51,7 @@ userSchema.methods.getSignedAuthToken = function() {
   return jwt.sign(
     { id: this._id },
     process.env.JWT_ACCESS_SECRET,
-    { expiresIn: process.env.JWT_ACCESS_EXPIREIN } // e.g., '15m' for 15 minutes
+    { expiresIn: process.env.JWT_ACCESS_EXPIREIN } 
   );
 };
 
@@ -60,7 +60,7 @@ userSchema.methods.getSignedRefreshToken = function() {
   return jwt.sign(
     { id: this._id },
     process.env.JWT_REFRESH_SECRET,
-    { expiresIn: process.env.JWT_REFRESH_EXPIREIN } // e.g., '7d' for 7 days
+    { expiresIn: process.env.JWT_REFRESH_EXPIREIN } 
   );
 };
 

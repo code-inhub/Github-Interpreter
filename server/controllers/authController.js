@@ -1,7 +1,6 @@
 // const errorHandler = require("../middelwares/errorMiddleware");
 const userModel = require("../models/userModel");
 const errorResponse = require("../utils/errorResponse");
-const jwt = require("jsonwebtoken");
 
 // JWT TOKEN
 exports.sendTokens = async (user, statusCode, res) => {
@@ -54,6 +53,7 @@ exports.registerContoller = async (req, res, next) => {
 //LOGIN
 exports.loginController = async (req, res, next) => {
   try {
+    console.log(req.body);
     const { email, password } = req.body;
     //validation
     if (!email || !password) {
@@ -77,6 +77,7 @@ exports.loginController = async (req, res, next) => {
 
 //LOGOUT
 exports.logoutController = async (req, res) => {
+  res.clearCookie("authToken");
   res.clearCookie("refreshToken");
   return res.status(200).json({
     success: true,

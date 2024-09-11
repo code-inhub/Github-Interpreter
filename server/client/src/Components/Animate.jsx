@@ -37,7 +37,7 @@ const Animate = () => {
           <motion.circle
             cx="253"
             cy="253"
-            r="250"
+            r="150"
             stroke="#fffffd"
             strokeWidth="4"
             strokeLinecap="round"

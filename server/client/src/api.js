@@ -27,7 +27,7 @@ export const register = async (username, email, password) => {
   }
 };
 
-export const login = async (userName, email, password) => {
+export const login = async (email, password) => {
   try {
     const response = await axios.post(
       `${baseURL}/login`,
@@ -50,7 +50,7 @@ export const login = async (userName, email, password) => {
   }
 };
 
-export const logout = async (userName, email, password) => {
+export const logout = async () => {
   try {
     const response = await axios.post(
       `${baseURL}/logout`,
@@ -61,10 +61,11 @@ export const logout = async (userName, email, password) => {
         withCredentials: true,
       }
     );
-    console.log(response.data);
+    console.log(response);
 
     return response;
-  } catch (err) {
+  } catch (err) { 
     console.log(err);
-  }
+  } 
 };
+ 

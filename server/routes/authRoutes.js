@@ -18,6 +18,6 @@ router.post("/register", registerContoller);
 router.post("/login", loginController);
 
 //LOGOUT
-router.post("/logout", logoutController);
+router.post("/logout", verifyJWT, logoutController);
 
-module.exports = router; 
+module.exports = router;  

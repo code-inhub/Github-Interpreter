@@ -15,12 +15,20 @@ const Login = () => {
 
   const handleSubmit = () => {
     login(emailAddress, password)
-      .then((data) => {
-        console.log(data);
-        navigate("/test");
+      .then((response) => {
+        if (response && response.status === 200) {
+          console.log(response.data);
+          navigate("/test");
+        } else {
+          // add pop notification : incorrect email Id or password
+          console.log("Login failed");
+        }
       })
-      .catch((error) => console.log(error));
-  };
+      .catch((error) => {
+        console.log(error);
+        console.log("Login failed");
+      });
+  };  
 
   return (
     <div className="login-page">
