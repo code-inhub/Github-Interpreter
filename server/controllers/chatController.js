@@ -6,14 +6,14 @@ const errorResponse = require("../utils/errorResponse");
 // Create a new chat
 exports.createChat = async (req, res, next) => {
   try {
-    const { userId } = req.body;
-    const user = await User.findById(userId);
+    const { id } = req.user;
+    const user = await User.findById(id);
 
     if (!user) {
       return next(new errorResponse("User not found", 404));
     }
 
-    const chat = await Chat.create({ user: userId });
+    const chat = await Chat.create({ user: id });
     user.chats.push(chat._id);
     await user.save();
 
@@ -29,14 +29,14 @@ exports.createChat = async (req, res, next) => {
 // Add a message to a chat
 exports.addMessage = async (req, res, next) => {
   try {
-    const { chatId, sender, text } = req.body;
+    const { chatId, isUser, text } = req.body;
     const chat = await Chat.findById(chatId);
 
     if (!chat) {
       return next(new errorResponse("Chat not found", 404));
     }
 
-    const message = await Message.create({ chat: chatId, sender, text });
+    const message = await Message.create({ chat: chatId, isUser, text });
     chat.messages.push(message._id);
     await chat.save();
 

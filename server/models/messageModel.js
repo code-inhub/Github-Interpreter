@@ -6,8 +6,8 @@ const messageSchema = new mongoose.Schema({
     ref: "Chat",
     required: true,
   },
-  sender: {
-    type: String,
+  isUser: {
+    type: Boolean,
     required: true,
   },
   text: {
