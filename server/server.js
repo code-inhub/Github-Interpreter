@@ -6,8 +6,10 @@ const connectDB = require("./config/db");
 const errorHandler = require("./middlewares/errorMiddleware");
 const cookieParser = require("cookie-parser");
 const verifyJWT = require("./middlewares/authMiddleware");
+
 //routes path
 const authRoutes = require("./routes/authRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 dotenv.config();
 
@@ -29,6 +31,7 @@ const PORT = process.env.PORT || 8080;
 //   res.send("API is running....");
 // } );
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/chat", chatRoutes);
 app.use("/api/v1/openai",verifyJWT,require("./routes/openaiRoutes"));
 
 //listen server
