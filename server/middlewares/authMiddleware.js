@@ -16,28 +16,31 @@ const verifyJWT = async (req, res, next) => {
 
       try {
         const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-        const user = await User.findById(decodedRefreshToken?._id);
-
+        console.log(decodedRefreshToken);
+        const user = await User.findById(decodedRefreshToken?.id);
+        // console.log(user);
+        // console.log(user.refreshToken);
+        
         if (!user || user.refreshToken !== refreshToken) {
-          return next(new errorResponse("Invalid refresh token, please login again", 401));
+          return next(new errorResponse("Invalid refresh token, please login again1", 401));
         }
 
         // Generate a new auth token
-        token = jwt.sign({ _id: user._id }, process.env.JWT_ACCESS_SECRET, {
+        token = jwt.sign({ id: user._id }, process.env.JWT_ACCESS_SECRET, {
           expiresIn: process.env.JWT_ACCESS_EXPIREIN,
         });
 
         // Update the auth token cookie
-        res.cookie("authToken", token, {
+        res.cookie("authToken", token, { 
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
+          secure: true,
           maxAge: 15 * 60 * 1000, // 15 minutes
         });
 
         decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET); // Decode the new token
 
       } catch (refreshError) {
-        return next(new errorResponse("Invalid refresh token, please login again", 401));
+        return next(new errorResponse("Invalid refresh token, please login again2", 401));
       }
     } else {
       // Auth token is present, verify it
@@ -55,14 +58,14 @@ const verifyJWT = async (req, res, next) => {
 
           try {
             const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-            const user = await User.findById(decodedRefreshToken?._id);
+            const user = await User.findById(decodedRefreshToken?.id);
 
             if (!user || user.refreshToken !== refreshToken) {
-              return next(new errorResponse("Invalid refresh token, please login again", 401));
+              return next(new errorResponse("Invalid refresh token, please login again3", 401));
             }
 
             // Generate a new auth token
-            token = jwt.sign({ _id: user._id }, process.env.JWT_ACCESS_SECRET, {
+            token = jwt.sign({ id: user._id }, process.env.JWT_ACCESS_SECRET, {
               expiresIn: process.env.JWT_ACCESS_EXPIREIN,
             });
 
@@ -70,13 +73,13 @@ const verifyJWT = async (req, res, next) => {
             res.cookie("authToken", token, {
               httpOnly: true,
               secure: process.env.NODE_ENV === "production",
-              maxAge: 15 * 60 * 1000, // 15 minutes
+              maxAge: 15 * 60 * 1000, // 15 minutes 
             });
 
             decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET); // Decode the new token
 
           } catch (refreshError) {
-            return next(new errorResponse("Invalid refresh token, please login again", 401));
+            return next(new errorResponse("Invalid refresh token, please login again4", 401));
           }
         } else {
           return next(new errorResponse("Invalid access token", 401));
