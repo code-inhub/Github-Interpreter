@@ -10,14 +10,14 @@ exports.sendTokens = async (user, statusCode, res) => {
   // Store the auth token in a cookie
   res.cookie("authToken", authToken, {
     httpOnly: true,
-    secure: true,
+    //secure: true,
     maxAge: 15 * 60 * 1000,
   });
 
   // Store the refresh token in a cookie
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: true,
+    //secure: true,
     maxAge: 1 * 24 * 60 * 60 * 1000,
   });
 

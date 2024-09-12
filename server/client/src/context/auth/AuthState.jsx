@@ -5,7 +5,8 @@ const AuthState = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const [isChatArea, setIsChatArea] = useState(false);
+  const [isChatAnalysis, setIsChatAnalysis] = useState(false);
+  const [isChatWithRepo, setIsChatWithRepo] = useState(false);
   return (
     <AuthContext.Provider
       value={{
@@ -13,8 +14,10 @@ const AuthState = ({ children }) => {
         isAuthenticated,
         setUser,
         setIsAuthenticated,
-        isChatArea,
-        setIsChatArea,
+        isChatAnalysis,
+        setIsChatAnalysis,
+        isChatWithRepo,
+        setIsChatWithRepo,
       }}
     >
       {children}

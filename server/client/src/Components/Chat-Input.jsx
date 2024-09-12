@@ -9,6 +9,7 @@ const Input = ({
   inputState,
   inputStateFunc,
   type,
+  width,
 }) => {
   const [isFocus, setIsFocus] = useState(false);
   const inputContainerStyle = {
@@ -21,7 +22,7 @@ const Input = ({
     border: "2px solid #ffffff", // Change color if needed
     backgroundColor: "",
     marginBottom: "8px",
-    width: "50%",
+    width: width || "50%",
   };
   const inputStyle = {
     width: "100%",
