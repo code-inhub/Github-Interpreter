@@ -12,6 +12,11 @@ const chatSchema = new mongoose.Schema({
       ref: "Message",
     },
   ],
+  type: {
+    type: String,
+    enum: ["Repo Analysis", "Chat with Repo", "Handle Error"],
+    required: true,
+  },
 }, {
   timestamps: true,
 });
