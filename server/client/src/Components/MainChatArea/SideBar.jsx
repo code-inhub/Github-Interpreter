@@ -4,7 +4,7 @@ import AuthContext from "../../context/auth/AuthContext";
 const SideBar = () => {
   const { setIsChatArea } = useContext(AuthContext);
   return (
-    <div className="sidebar w-1/6 backdrop-blur-2xl bg-opacity-70 text-white flex flex-col justify-between p-4">
+    <div className="sidebar w-1/6 h-full fixed backdrop-blur-2xl bg-opacity-70 text-white flex flex-col justify-between p-4">
       <div className="chat-history overflow-y-auto">
         {/* <h2 className="text-xl mb-4">Chat History</h2> */}
         <button
