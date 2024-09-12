@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AuthContext from "./AuthContext.jsx";
 
 const AuthState = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   return (
     <AuthContext.Provider

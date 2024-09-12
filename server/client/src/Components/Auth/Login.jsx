@@ -1,24 +1,38 @@
-import { useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Input from "../AuthComponents/Input.jsx";
 import { TbMailFilled } from "react-icons/tb";
 import { MdLockOutline } from "react-icons/md";
 import { motion } from "framer-motion";
 import "../../styles/login.css";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../api.js";
+import { getToken, login } from "../../api.js";
+import AuthContext from "../../context/auth/AuthContext.jsx";
 
 const Login = () => {
   const [emailAddress, setEmailAdress] = useState("");
   const [password, setPassword] = useState("");
 
+  const { user } = useContext(AuthContext);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkToken = async () => {
+      let isToken = await getToken();
+      if (isToken) {
+        navigate("/");
+      }
+    };
+
+    checkToken();
+  }, [history]);
 
   const handleSubmit = () => {
     login(emailAddress, password)
       .then((response) => {
         if (response && response.status === 200) {
           console.log(response.data);
-          navigate("/test");
+          navigate("/");
         } else {
           // add pop notification : incorrect email Id or password
           console.log("Login failed");
@@ -28,7 +42,7 @@ const Login = () => {
         console.log(error);
         console.log("Login failed");
       });
-  };  
+  };
 
   return (
     <div className="login-page">

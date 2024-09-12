@@ -31,13 +31,11 @@ exports.sendTokens = async (user, statusCode, res) => {
   });
 };
 
-
-
 //REGISTER
 exports.registerContoller = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
-    //exisitng user 
+    //exisitng user
     const exisitingEmail = await userModel.findOne({ email });
     if (exisitingEmail) {
       return next(new errorResponse("Email is already register", 500));
@@ -49,7 +47,7 @@ exports.registerContoller = async (req, res, next) => {
     next(error);
   }
 };
- 
+
 //LOGIN
 exports.loginController = async (req, res, next) => {
   try {
