@@ -2,18 +2,28 @@ import React, { useContext } from "react";
 import AuthContext from "../../context/auth/AuthContext";
 
 const ChatArea = () => {
-  const { isChatArea, setIsChatArea } = useContext(AuthContext);
+  const { isChatAnalysis, setIsChatAnalysis, setIsChatWithRepo } =
+    useContext(AuthContext);
   return (
     <>
       <div className="chat-page flex-1 p-4 flex flex-col">
         <div className="flex gap-6 items-center text-white">
           <button
             className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
-            onClick={() => setIsChatArea(false)}
+            onClick={() => {
+              setIsChatAnalysis(true);
+              setIsChatWithRepo(false);
+            }}
           >
             Repo Analysis
           </button>
-          <button className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer">
+          <button
+            className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+            onClick={() => {
+              setIsChatWithRepo(true);
+              setIsChatAnalysis(false);
+            }}
+          >
             Chat with Repo
           </button>
           <button className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer">

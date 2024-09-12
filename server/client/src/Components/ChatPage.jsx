@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import ChatRepo from "./MainChatArea/ChatRepo";
 
 import "../styles/chatpage.css";
 
@@ -13,9 +14,15 @@ import SideBar from "./MainChatArea/SideBar";
 
 const ChatPage = () => {
   const [repoAnalysis] = useState(false);
-  const [isChatWithRepo, setIsChatWithRepo] = useState(true);
 
-  const { user, setUser, isChatArea, setIsChatArea } = useContext(AuthContext);
+  const {
+    user,
+    setUser,
+    isChatAnalysis,
+    setIsChatAnalysis,
+    isChatWithRepo,
+    setIsChatWithRepo,
+  } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
     logout()
@@ -33,7 +40,13 @@ const ChatPage = () => {
 
       {/* Main chat area */}
 
-      {isChatArea ? <ChatArea /> : <ChatComponent />}
+      {isChatAnalysis ? (
+        <ChatComponent />
+      ) : isChatWithRepo ? (
+        <ChatRepo />
+      ) : (
+        <ChatArea />
+      )}
 
       <button
         onClick={handleLogout}
