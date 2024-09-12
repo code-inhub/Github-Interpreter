@@ -18,11 +18,11 @@ router.post("/register", registerContoller);
 router.post("/login", loginController);
 
 //LOGOUT
-router.post("/logout", verifyJWT, logoutController);
+router.get("/logout", verifyJWT, logoutController);
 
 // VERIFY TOKEN
 router.get("/verify-token", verifyJWT, (req, res) => {
-  console.log(JSON.stringify(req));
+  //console.log(JSON.stringify(req));
   res
     .status(200)
     .json({ success: true, message: "Token is valid", user: req.user });
