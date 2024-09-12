@@ -16,7 +16,7 @@ connectDB();
 const app = express();
 
 //middlewares
-app.use(cors( { origin: true, credentials: true } ));
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 8080;
 //   res.send("API is running....");
 // } );
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/openai", verifyJWT, require("./routes/openaiRoutes"));
+// app.use("/api/v1/openai", verifyJWT, require("./routes/openaiRoutes"));
 
 //listen server
 app.listen(PORT, () => {

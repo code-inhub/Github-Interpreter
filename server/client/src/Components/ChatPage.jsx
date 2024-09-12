@@ -5,9 +5,13 @@ import Input from "./Chat-Input";
 import { IoSend } from "react-icons/io5";
 import { logout } from "../api";
 import { useNavigate } from "react-router-dom";
+import Analysis from "./RepoComponents/Analysis";
+import ChatWithRepo from "./RepoComponents/ChatWithRepo";
 
 const ChatPage = () => {
   const [chatText, setChatText] = useState("");
+  const [repoAnalysis] = useState(false);
+  const [isChatWithRepo, setIsChatWithRepo] = useState(true);
   const navigate = useNavigate();
   const handleLogout = () => {
     logout()
@@ -25,16 +29,22 @@ const ChatPage = () => {
         <div className="chat-history overflow-y-auto">
           <h2 className="text-xl mb-4">Chat History</h2>
           {/* Example chat history items */}
-          <div className="chat-item mb-2 p-2 border-b border-gray-600">Chat 1</div>
-          <div className="chat-item mb-2 p-2 border-b border-gray-600">Chat 2</div>
-          <div className="chat-item mb-2 p-2 border-b border-gray-600">Chat 3</div>
+          <div className="chat-item mb-2 p-2 border-b border-gray-600">
+            Chat 1
+          </div>
+          <div className="chat-item mb-2 p-2 border-b border-gray-600">
+            Chat 2
+          </div>
+          <div className="chat-item mb-2 p-2 border-b border-gray-600">
+            Chat 3
+          </div>
           {/* Add more chat items as needed */}
         </div>
       </div>
 
       {/* Main chat area */}
       <div className="chat-page flex-1 p-4 flex flex-col">
-      <div className="flex gap-6 items-center text-white">
+        <div className="flex gap-6 items-center text-white">
           <button className=" border hover:scale-110 transition-all border-white   px-3 py-1 rounded-2xl  backdrop-blur-2xl cursor-pointer">
             Repo Analysis
           </button>
@@ -53,24 +63,15 @@ const ChatPage = () => {
           type={"text"}
           label={"Your Prompt"}
         />
-        <div className="chat-container relative mt-4 flex-1">
-          <div className="p-2 overflow-y-auto max-h-full text-white">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem eum
-            repellendus tempore quod nam velit consequatur ullam fugit saepe
-            est. Dolorem ex maiores inventore earum, quas porro! Obcaecati
-            incidunt voluptatum minima quos dolorum numquam, odio, itaque sequi
-            nisi vitae quas animi? Praesentium quaerat vel odio provident
-            possimus, incidunt voluptate facilis.
-          </div>
-          <button className="absolute text-white border hover:scale-110 transition-all border-white bottom-4 right-5 px-5 py-1 rounded-2xl backdrop-blur-2xl cursor-pointer">
-            <IoSend className="text-2xl" />
-          </button>
+        <div className="chat-container mt-4 flex-1">
+          {repoAnalysis && <Analysis />}
+          {isChatWithRepo && <ChatWithRepo />}
         </div>
       </div>
 
       <button
         onClick={handleLogout}
-        className="border fixed text-white hover:scale-110 transition-all top-6 right-20 border-white px-3 py-1 rounded-2xl backdrop-blur-xl cursor-pointer"
+        className="border fixed text-white hover:scale-110 transition-all top-6 right-20 border-white px-3 py-1 rounded-2xl backdrop-blur-xl cursor-poi nter"
       >
         Logout
       </button>
