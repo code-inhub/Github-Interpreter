@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Animate from "./Animate";
 import "../styles/landing.css";
+import colouredGithub from "../styles/pics/GitHub Colored.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -46,12 +47,13 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="container p-4 bg-cover bg-center bg-no-repeat bg-yellow-50 fade-in-bg background-image max-w-full h-screen flex justify-center flex-col">
-        <div className="absolute top-4 left-4">
-        </div>
-        <h1 className="text-5xl font-bold mb-8" style={{ color: "rgb(255,218,192)" }}>Github-Interpreter</h1>
-        <section className="container flex items-center justify-center gap-10 ">
-          <div className="max-w-5xl flex flex-col gap-6 backdrop-blur-2xl p-6 rounded-lg">
+      <div className="container p-4 bg-cover bg-center bg-no-repeat bg-yellow-50 fade-in-bg background-image max-w-full h-screen flex flex-col justify-between">
+        <div className="flex justify-center mt-10">
+        <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300">
+            Github-Interpreter
+          </h1>        </div>
+        <section className="flex flex-1 items-center justify-between px-10">
+          <div className="w-3/5 flex flex-col gap-6 p-6 rounded-lg">
             {lines.map((line) => {
               return (
                 <motion.p
@@ -67,22 +69,21 @@ const LandingPage = () => {
               );
             })}
           </div>
-          <div>
-            <Animate />
+          <div className="w-2/5 flex justify-center">
+            <img src={colouredGithub} className="w-3/4 h-auto" />
           </div>
         </section>
-
-        <div className="flex items-center justify-center py-13 mt-10">
-          <button
-            className="text-white px-6 py-2 bg-black rounded-xl border border-purple-950 font-bold w-[20%]"
-            onClick={handleButtonClick}
-          >
-            Lets Go
-          </button>
+        <div className="flex items-center justify-center py-13">
+        <button
+  className="text-white px-6 py-1 mb-10 text-3xl font-bold backdrop-blur-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 rounded-2xl"
+  onClick={handleButtonClick} 
+>
+  Lets Go"logo"
+</button>
         </div>
       </div>
     </>
   );
-};
+}; 
 
 export default LandingPage;

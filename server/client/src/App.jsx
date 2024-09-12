@@ -9,7 +9,7 @@ import { getUser, getToken } from "./api.js";
 import AuthContext from "./context/auth/AuthContext.jsx";
 
 const App = () => {
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, setUserChatList } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -28,13 +28,14 @@ const App = () => {
     };
 
     getTok();
-  }, [navigate, location.pathname]);
+  }, [navigate, location.pathname]); 
 
   useEffect(() => {
     getUser()
       .then((data) => {
-        console.log(data);
         setUser(data?.user);
+        console.log(data.user.chats)
+        setUserChatList(data?.user?.chats)
       })
       .catch((error) => {
         console.log(error);

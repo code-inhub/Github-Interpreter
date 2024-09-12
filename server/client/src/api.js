@@ -74,6 +74,16 @@ export const getUser = async () => {
   return data;
 };
 
+export const getUserChat = async (userId) =>{
+  const {data} = await axios.get(
+    `http://localhost:8080/api/v1/get-chat/${userId}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return data.messages;
+}
+
 export const getToken = async () => {
   try {
     const { data } = await axios.get(

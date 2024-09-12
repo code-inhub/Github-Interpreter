@@ -9,9 +9,9 @@ const SideBar = () => {
     isChatAnalysis,
     isChatWithRepo,
     user,
+    userChatList,
   } = useContext(AuthContext);
-
-  console.log(user);
+  // console.log()
   return (
     <div className="sidebar w-1/6 h-full fixed backdrop-blur-2xl bg-opacity-70 text-white flex flex-col justify-between p-4">
       <div className="chat-history overflow-y-auto">
@@ -28,15 +28,18 @@ const SideBar = () => {
           New Chat{" "}
         </button>
         {/* Example chat history items */}
-        <div className="chat-item mb-2 p-2 border-b border-gray-600">
-          Chat 1
-        </div>
-        <div className="chat-item mb-2 p-2 border-b border-gray-600">
-          Chat 2
-        </div>
-        <div className="chat-item mb-2 p-2 border-b border-gray-600">
-          Chat 3
-        </div>
+        {userChatList && userChatList.length > 0 ? (
+          userChatList.map((chat, index) => (
+            <div
+              key={index}
+              className="chat-item mb-2 p-2 border-b border-gray-600"
+            >
+              {chat} {/* Assuming each chat object has a 'name' property */}
+            </div>
+          ))
+        ) : (
+          <div className="text-gray-400">No chats available</div>
+        )}
         {/* Add more chat items as needed */}
       </div>
       <div className="absolute bottom-0 py-2 flex gap-2">
@@ -48,3 +51,4 @@ const SideBar = () => {
 };
 
 export default SideBar;
+ 

@@ -45,7 +45,7 @@ const verifyJWT = async (req, res, next) => {
     } else {
       // Auth token is present, verify it
       try {
-        console.log("verify token in else try")
+        // console.log("verify token in else try")
         decodedToken = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
       } catch (error) {
         if (error.name === "TokenExpiredError") {
@@ -86,11 +86,11 @@ const verifyJWT = async (req, res, next) => {
         }
       }
     }
-    console.log(decodedToken)
+    // console.log(decodedToken)
     const user = await User.findById(decodedToken?.id).select("-password -refreshToken");
 
     if (!user) {
-      console.log("this code is running");
+      // console.log("this code is running");
       return next(new errorResponse("Invalid access token", 401));
     }
 
