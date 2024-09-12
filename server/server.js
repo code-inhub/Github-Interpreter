@@ -9,7 +9,7 @@ const verifyJWT = require("./middlewares/authMiddleware");
 
 //routes path
 const authRoutes = require("./routes/authRoutes");
-// const chatRoutes = require("./routes/chatRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 // const openaiRoutes = require("./routes/openaiRoutes");
 dotenv.config();
 
@@ -31,7 +31,7 @@ const PORT = process.env.PORT || 8080;
 //   res.send("API is running....");
 // } );
 app.use("/api/v1/auth", authRoutes);
-// app.use("/api/v1/chat", verifyJWT, chatRoutes);
+app.use("/api/v1/chat", verifyJWT, chatRoutes);
 // app.use("/api/v1/openai", verifyJWT, openaiRoutes);
 
 //listen server
