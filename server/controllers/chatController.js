@@ -49,3 +49,21 @@ exports.addMessage = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getChat = async (req, res, next) => {
+  try {
+    const { chatId } = req.params;
+    const chat = await Chat.findById(chatId).populate("messages");
+
+    if (!chat) {
+      return next(new errorResponse("Chat not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: chat,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
