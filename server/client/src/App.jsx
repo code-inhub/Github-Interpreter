@@ -1,34 +1,53 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import LandingPage from "./Components/LandingPage";
 import SignUp from "./Components/Auth/SignUp.jsx";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Login from "./Components/Auth/Login";
 import ChatPage from "./Components/ChatPage.jsx";
-import AuthState from "./context/auth/AuthState.jsx";
-import { getUser } from "./api/index.js";
+import { getUser, getToken } from "./api.js";
+import AuthContext from "./context/auth/AuthContext.jsx";
 
 const App = () => {
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const getTok = async () => {
+      let token = await getToken();
+
+      if (
+        !token &&
+        location.pathname !== "/login" &&
+        location.pathname !== "/signup"
+      ) {
+        navigate("/");
+      }
+    };
+
+    getTok();
+  }, [navigate, location.pathname]);
+
   useEffect(() => {
     getUser()
       .then((data) => {
         console.log(data);
+        setUser(data?.user);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+
   return (
-    <Router>
-      <AuthState>
-        <Routes>
-          <Route path="/" element={<LandingPage />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/signup" element={<SignUp />}></Route>
-          <Route path="/test" element={<ChatPage />}></Route>
-        </Routes>
-      </AuthState>
-    </Router>
+    <Routes>
+      <Route path="/" element={<LandingPage />}></Route>
+      <Route path="/login" element={<Login />}></Route>
+      <Route path="/signup" element={<SignUp />}></Route>
+      <Route path="/test" element={<ChatPage />}></Route>
+    </Routes>
   );
 };
 

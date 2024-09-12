@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { getUser } from "../api";
 import "../styles/chatpage.css";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import Input from "./Chat-Input";
@@ -7,11 +8,14 @@ import { logout } from "../api";
 import { useNavigate } from "react-router-dom";
 import Analysis from "./RepoComponents/Analysis";
 import ChatWithRepo from "./RepoComponents/ChatWithRepo";
+import AuthContext from "../context/auth/AuthContext";
 
 const ChatPage = () => {
   const [chatText, setChatText] = useState("");
   const [repoAnalysis] = useState(false);
   const [isChatWithRepo, setIsChatWithRepo] = useState(true);
+
+  const { user, setUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
     logout()

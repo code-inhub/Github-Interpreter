@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Input from "../AuthComponents/Input.jsx";
 import { TbMailFilled } from "react-icons/tb";
 import { MdLockOutline } from "react-icons/md";
@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import "../../styles/signup.css";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../api.js";
+import AuthContext from "../../context/auth/AuthContext.jsx";
 
 const Login = () => {
   const [emailAddress, setEmailAdress] = useState("");
@@ -14,12 +15,26 @@ const Login = () => {
   const [userName, setUserName] = useState("");
   const componentLoading = false;
 
+  const { user } = useContext(AuthContext);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkToken = async () => {
+      let isToken = await getToken();
+      if (isToken) {
+        navigate("/");
+      }
+    };
+
+    checkToken();
+  }, [history]);
 
   const handleSubmit = () => {
     console.log("data", userName, emailAddress, password);
     register(userName, emailAddress, password)
-      .then((data) =>{ console.log(data);
+      .then((data) => {
+        console.log(data);
         navigate("/test");
       })
       .catch((error) => console.log(error));
