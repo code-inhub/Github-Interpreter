@@ -32,7 +32,7 @@ const PORT = process.env.PORT || 8080;
 // } );
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/chat", verifyJWT, chatRoutes);
-app.use("/api/v1/openai", verifyJWT, openaiRoutes);
+// app.use("/api/v1/openai", verifyJWT, openaiRoutes);
 
 //listen server
 app.listen(PORT, () => {
