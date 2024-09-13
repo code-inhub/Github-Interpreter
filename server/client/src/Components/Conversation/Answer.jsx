@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
-function Answer({content}) {
+function Answer({ content }) {
   return (
-    <div>
+    <div className='bg-gray-300  text-black mr-16 my-2 rounded-2xl p-4 shadow-lg '>
       {content}
     </div>
-  )
+  );
 }
 
 export default Answer;
