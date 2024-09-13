@@ -3,14 +3,17 @@ import { IoSend } from "react-icons/io5";
 import Input from "../Chat-Input";
 import Answer from "../Conversation/Answer.jsx";
 import Question from "../Conversation/Question.jsx";
+import { getAnswer } from "../../api.js";
+
 
 const ChatRepo = () => {
+
   const [chatRepo, setChatRepo] = useState("");
   const [messages, setMessages] = useState([
-    { type: "question", content: "What is React?" },
-    {
+    { type: "question", content: " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium.What is React?" },
+    { 
       type: "answer",
-      content: "React is a JavaScript library for building user interfaces.",
+      content: " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium.  React is a JavaScript library for building user interfaces.",
     },
     { type: "question", content: "What is a component?" },
     {
@@ -20,11 +23,31 @@ const ChatRepo = () => {
     },
   ]);
 
+  const handleSend = async () => {
+    console.log("calling")
+    if (chatRepo.trim() === "") return;
+
+    // Add new question to messages
+    const newMessages = [...messages, { type: "question", content: chatRepo }];
+    setMessages(newMessages);
+    setChatRepo(""); // Clear input field
+
+    // Make API request to get the answer
+    try {
+      const repoUrl = "xvz ";
+      const answer = await getAnswer(chatRepo,repoUrl,"66e2d60549b9bb63c1b428a9"
+      );
+      setMessages([...newMessages, { type: "answer", content: answer }]);
+    } catch (error) {
+      console.error("Error fetching answer:", error);
+    }
+  };
+
   return (
     <div className="flex-1 ">
       <div className="flex flex-col justify-center items-center p-10 w-full h-full">
-        <div className="chat-container relative mt-4 flex-1">
-          <div className="p-2 overflow-y-auto max-h-full text-white h-[82%]">
+        <div className="chat-container relative mt- flex-1">
+          <div className="p-2 overflow-y-auto max-h-full text-white h-[90%]">
             {messages?.map((message, index) =>
               message?.type === "question" ? (
                 <Question key={index} content={message?.content} />
@@ -33,7 +56,7 @@ const ChatRepo = () => {
               )
             )}
           </div>
-          <div className="fixed bottom-0 flex gap-1 w-full">
+          <div className="fixed flex justify-between  bottom-0 text flex  w-4/5 h-12 ">
             <Input
               inputState={chatRepo}
               placeholder="Write your text here"
@@ -41,10 +64,13 @@ const ChatRepo = () => {
               type={"text"}
               label={"Your Prompt"}
               width={"100%"}
+              className="text-sm"
             />
 
-            <button className=" text-white border hover:scale-110 transition-all border-white right-3 px-4  rounded-2xl backdrop-blur-2xl cursor-pointer">
-              <IoSend className="text-0.5xl" />
+            <button className=" text-white hover:scale-110 transition-all  right-3 px-4  rounded-2xl backdrop-blur-2xl cursor-pointer"
+            onClick={handleSend}
+            >
+              <IoSend className="text-2xl " />
             </button>
           </div>
         </div>

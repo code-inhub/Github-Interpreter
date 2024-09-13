@@ -1,4 +1,5 @@
 import axios from "axios";
+import { get } from "mongoose";
 
 const baseURL = "http://localhost:8080/api/v1/auth";
 //localhost:8080/api/v1/auth/register
@@ -105,3 +106,23 @@ export const getToken = async () => {
     return false;
   }
 };
+
+export const getAnswer = async (question,repoUrl,chatId) => {
+  try {
+    console.log(question,repoUrl,chatId);
+    const {data}  = await axios.post(
+      `http://localhost:8080/api/v1/chat/code-correction/66e2d60549b9bb63c1b428a9`,
+      {
+        repoUrl,
+        issue:question,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(data);
+    return data.aiMessage.text;
+  } catch (error) {
+    console.log(error);
+  }
+}
