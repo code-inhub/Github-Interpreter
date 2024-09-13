@@ -37,6 +37,8 @@ const ChatPage = () => {
       .catch((err) => console.log(err));
   };
 
+  console.log(user);
+
   return (
     <div className="relative background-chat container max-w-full h-[100vh] w-[100vw] flex gap-2">
       {/* Sidebar for chat history */}

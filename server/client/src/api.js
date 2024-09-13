@@ -75,15 +75,15 @@ export const getUser = async () => {
   return data;
 };
 
-export const getUserChat = async (userId) =>{
-  const {data} = await axios.get(
+export const getUserChat = async (userId) => {
+  const { data } = await axios.get(
     `http://localhost:8080/api/v1/get-chat/${userId}`,
     {
       withCredentials: true,
     }
   );
   return data.messages;
-}
+};
 
 export const getToken = async () => {
   try {
@@ -107,14 +107,14 @@ export const getToken = async () => {
   }
 };
 
-export const getAnswer = async (question,repoUrl,chatId) => {
+export const getAnswer = async (question, repoUrl, chatId) => {
   try {
-    console.log(question,repoUrl,chatId);
-    const {data}  = await axios.post(
+    console.log(question, repoUrl, chatId);
+    const { data } = await axios.post(
       `http://localhost:8080/api/v1/chat/code-correction/66e2d60549b9bb63c1b428a9`,
       {
         repoUrl,
-        issue:question,
+        issue: question,
       },
       {
         withCredentials: true,
@@ -125,4 +125,31 @@ export const getAnswer = async (question,repoUrl,chatId) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+//https://github.com/code-inhub/HackerMan
+export const createChat = async (githubLink, type) => {
+  console.log(githubLink, type);
+
+  try {
+    const { data } = await axios.post(
+      `http://localhost:8080/api/v1/chat/create-chat`,
+      {
+        githubLink,
+        type,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

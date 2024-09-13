@@ -18,6 +18,8 @@ const App = () => {
     const getTok = async () => {
       let token = await getToken();
 
+      console.log(token);
+
       if (
         !token &&
         location.pathname !== "/login" &&

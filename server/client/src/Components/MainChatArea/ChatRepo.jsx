@@ -5,15 +5,18 @@ import Answer from "../Conversation/Answer.jsx";
 import Question from "../Conversation/Question.jsx";
 import { getAnswer } from "../../api.js";
 
-
 const ChatRepo = () => {
-
   const [chatRepo, setChatRepo] = useState("");
   const [messages, setMessages] = useState([
-    { type: "question", content: " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium.What is React?" },
-    { 
+    {
+      type: "question",
+      content:
+        " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium.What is React?",
+    },
+    {
       type: "answer",
-      content: " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium.  React is a JavaScript library for building user interfaces.",
+      content:
+        " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium.  React is a JavaScript library for building user interfaces.",
     },
     { type: "question", content: "What is a component?" },
     {
@@ -24,7 +27,7 @@ const ChatRepo = () => {
   ]);
 
   const handleSend = async () => {
-    console.log("calling")
+    console.log("calling");
     if (chatRepo.trim() === "") return;
 
     // Add new question to messages
@@ -35,7 +38,10 @@ const ChatRepo = () => {
     // Make API request to get the answer
     try {
       const repoUrl = "xvz ";
-      const answer = await getAnswer(chatRepo,repoUrl,"66e2d60549b9bb63c1b428a9"
+      const answer = await getAnswer(
+        chatRepo,
+        repoUrl,
+        "66e2d60549b9bb63c1b428a9"
       );
       setMessages([...newMessages, { type: "answer", content: answer }]);
     } catch (error) {
@@ -56,7 +62,7 @@ const ChatRepo = () => {
               )
             )}
           </div>
-          <div className="fixed flex justify-between  bottom-0 text flex  w-4/5 h-12 ">
+          <div className="flex bottom-0 text items-center justify-center w-full px-10">
             <Input
               inputState={chatRepo}
               placeholder="Write your text here"
@@ -67,8 +73,9 @@ const ChatRepo = () => {
               className="text-sm"
             />
 
-            <button className=" text-white hover:scale-110 transition-all  right-3 px-4  rounded-2xl backdrop-blur-2xl cursor-pointer"
-            onClick={handleSend}
+            <button
+              className=" text-white hover:scale-110 transition-all  right-3 px-4  rounded-2xl backdrop-blur-2xl cursor-pointer"
+              onClick={handleSend}
             >
               <IoSend className="text-2xl " />
             </button>

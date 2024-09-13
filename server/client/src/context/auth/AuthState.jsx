@@ -7,6 +7,7 @@ const AuthState = ({ children }) => {
   const [userChatList, setUserChatList] = useState([]);
   const [isChatAnalysis, setIsChatAnalysis] = useState(false);
   const [isChatWithRepo, setIsChatWithRepo] = useState(false);
+  const [githubLink, setGithubLink] = useState("");
   return (
     <AuthContext.Provider
       value={{
@@ -17,6 +18,8 @@ const AuthState = ({ children }) => {
         isChatAnalysis,
         setIsChatAnalysis,
         isChatWithRepo,
+        githubLink,
+        setGithubLink,
         setIsChatWithRepo,
         userChatList,
         setUserChatList,

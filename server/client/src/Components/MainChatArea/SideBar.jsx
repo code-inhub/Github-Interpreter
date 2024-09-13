@@ -13,7 +13,7 @@ const SideBar = () => {
   } = useContext(AuthContext);
   // console.log()
 
-  console.log(userChatList);
+  //console.log(userChatList);
 
   const handleSubmit = async (chat) => {};
   return (
