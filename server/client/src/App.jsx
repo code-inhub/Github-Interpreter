@@ -18,6 +18,8 @@ const App = () => {
     const getTok = async () => {
       let token = await getToken();
 
+      console.log(token);
+
       if (
         !token &&
         location.pathname !== "/login" &&
@@ -28,6 +30,8 @@ const App = () => {
     };
 
     getTok();
+
+    console.log("pathname", location.pathname);
   }, [navigate, location.pathname]);
 
   useEffect(() => {
@@ -41,6 +45,8 @@ const App = () => {
         .catch((error) => {
           console.log(error);
         });
+
+      console.log("user");
     }
 
     console.log("navigate");

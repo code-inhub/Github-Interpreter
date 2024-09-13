@@ -15,6 +15,10 @@ import SideBar from "./MainChatArea/SideBar";
 const ChatPage = () => {
   const [repoAnalysis] = useState(false);
 
+  useEffect(() => {
+    console.log("dfdfdf");
+  }, []);
+
   const {
     user,
     setUser,
@@ -32,6 +36,8 @@ const ChatPage = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  console.log(user);
 
   return (
     <div className="relative background-chat container max-w-full h-[100vh] w-[100vw] flex gap-2">

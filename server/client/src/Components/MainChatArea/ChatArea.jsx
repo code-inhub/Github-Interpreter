@@ -1,34 +1,69 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import AuthContext from "../../context/auth/AuthContext";
+import Input from "../Chat-Input";
+import { MdDriveFileRenameOutline } from "react-icons/md";
+import { createChat } from "../../api";
 
 const ChatArea = () => {
-  const { isChatAnalysis, setIsChatAnalysis, setIsChatWithRepo } =
-    useContext(AuthContext);
+  const {
+    isChatAnalysis,
+    setIsChatAnalysis,
+    setIsChatWithRepo,
+    githubLink,
+    setGithubLink,
+    setUser,
+    user,
+    setUserChatList,
+    userChatList,
+  } = useContext(AuthContext);
+
+  const handleSubmit = (githubLink = "gdfgd", type) => {
+    console.log(githubLink, type);
+
+    createChat(githubLink, type)
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <>
       <div className="p-4 flex-1 ">
-        <div className="flex gap-6 items-center text-white justify-center h-full w-full">
-          <button
-            className="border text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer font-bold"
-            onClick={() => {
-              setIsChatAnalysis(true);
-              setIsChatWithRepo(false);
-            }}
-          >
-            Repo Analysis
-          </button>
-          <button
-            className="border text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110  transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer font-bold"
-            onClick={() => {
-              setIsChatWithRepo(true);
-              setIsChatAnalysis(false);
-            }}
-          >
-            Chat with Repo
-          </button>
-          <button className="border text-transparent  bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer font-bold ">
-            Handle Error
-          </button>
+        <div className="flex flex-col items-center justify-center w-full h-full gap-8">
+          <Input
+            icon={<MdDriveFileRenameOutline className="text-white" />}
+            inputState={githubLink}
+            placeholder="Write your text here"
+            inputStateFunc={setGithubLink}
+            type={"text"}
+            label={"Your Github Repo Link"}
+            width={"35%"}
+          />
+          <div className="flex gap-6 items-center text-white justify-center">
+            <button
+              className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+              onClick={() => {
+                handleSubmit(githubLink, "Repo Analysis");
+                setIsChatAnalysis(true);
+                setIsChatWithRepo(false);
+              }}
+            >
+              Repo Analysis
+            </button>
+            <button
+              className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+              onClick={() => {
+                setIsChatWithRepo(true);
+                setIsChatAnalysis(false);
+              }}
+            >
+              Chat with Repo
+            </button>
+            <button className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer">
+              Handle Error
+            </button>
+          </div>
         </div>
         {/*  */}
       </div>
