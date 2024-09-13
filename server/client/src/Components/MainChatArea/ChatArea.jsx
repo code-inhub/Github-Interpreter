@@ -57,7 +57,7 @@ const ChatArea = () => {
             <button
               className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
               onClick={() => {
-                handleSubmit(githubLink, "Chat With Repo");
+                handleSubmit(githubLink, "Chat with Repo");
                 setIsChatWithRepo(true);
                 setIsChatAnalysis(false);
               }}
