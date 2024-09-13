@@ -9,7 +9,7 @@ const ChatArea = () => {
       <div className="p-4 flex-1 ">
         <div className="flex gap-6 items-center text-white justify-center h-full w-full">
           <button
-            className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+            className="border text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer font-bold"
             onClick={() => {
               setIsChatAnalysis(true);
               setIsChatWithRepo(false);
@@ -18,7 +18,7 @@ const ChatArea = () => {
             Repo Analysis
           </button>
           <button
-            className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+            className="border text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110  transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer font-bold"
             onClick={() => {
               setIsChatWithRepo(true);
               setIsChatAnalysis(false);
@@ -26,7 +26,7 @@ const ChatArea = () => {
           >
             Chat with Repo
           </button>
-          <button className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer">
+          <button className="border text-transparent  bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer font-bold ">
             Handle Error
           </button>
         </div>

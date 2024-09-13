@@ -42,10 +42,16 @@ const SideBar = () => {
         )}
         {/* Add more chat items as needed */}
       </div>
-      <div className="absolute bottom-0 py-2 flex gap-2">
+      <div className="absolute bottom-0 py-2 flex justify-center  items-center gap-2">
         <FaCircleUser className="text-white text-2xl" />
         <article>{user?.username}</article>
       </div>
+      <button
+          // onClick={}
+          className="border justify-end font-bold  fixed top-[95%] bottom-1 right-1  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110 border-white px-3 py-1 rounded-lg bg-gray-300  cursor-pointer transition-all top-6 right-20 cursor-pointer"
+        >
+          Logout
+        </button>
     </div>
   );
 };

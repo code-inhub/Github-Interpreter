@@ -17,6 +17,10 @@ const chatSchema = new mongoose.Schema({
     enum: ["Repo Analysis", "Chat with Repo", "Handle Error"],
     required: true,
   },
+  githubLink:{
+    type:String,
+    required:true,
+  }
 }, {
   timestamps: true,
 });
