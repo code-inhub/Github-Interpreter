@@ -69,12 +69,6 @@ const ChatPage = () => {
         <ChatArea />
       )}
 
-      <button
-        onClick={handleLogout}
-        className="border fixed text-white hover:scale-110 transition-all top-6 right-20 border-white px-3 py-1 rounded-2xl backdrop-blur-xl cursor-pointer"
-      >
-        Logout
-      </button>
     </div>
   );
 };

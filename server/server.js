@@ -27,9 +27,7 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 8080;
 
 // API routes
-// app.use("/", (req, res) => {
-//   res.send("API is running....");
-// } );
+
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/chat", verifyJWT, chatRoutes);
 // app.use("/api/v1/openai", verifyJWT, openaiRoutes);

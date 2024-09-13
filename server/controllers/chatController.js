@@ -6,15 +6,21 @@ const errorResponse = require("../utils/errorResponse");
 // Create a new chat
 exports.createChat = async (req, res, next) => {
   try {
-    const {type} = req.body;
+    const {type, githubLink } = req.body;
     const {id} = req.user;
     const user = await User.findById(id);
+    
+    const pattern = /github\.com\/([\w-]+)\/([\w-]+)/;
+    const match = githubLink.match(pattern);
+    if (!match) {
+      return next(new errorResponse("Invalid Github URL", 400)); 
+    }
 
     if (!user) {
       return next(new errorResponse("User not found", 404));
     }
 
-    const chat = await Chat.create({ user: id,type });
+    const chat = await Chat.create({ user: id, type, githubLink });
     user.chats.push(chat._id);
     await user.save();
 
@@ -54,7 +60,7 @@ exports.getChat = async (req, res, next) => {
   try {
     const { chatId } = req.params;
     const chat = await Chat.findById(chatId).populate("messages");
-    
+
     if (!chat) {
       return next(new errorResponse("Chat not found", 404));
     }
@@ -65,6 +71,6 @@ exports.getChat = async (req, res, next) => {
       data: chat,
     });
   } catch (error) {
-    next(error);
+    next(error); 
   }
-};
+}; 
