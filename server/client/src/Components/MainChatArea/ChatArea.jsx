@@ -15,6 +15,8 @@ const ChatArea = () => {
     user,
     setUserChatList,
     userChatList,
+    isChatComing,
+    setIsChatComing,
   } = useContext(AuthContext);
 
   const handleSubmit = (githubLink = "gdfgd", type) => {
@@ -23,6 +25,7 @@ const ChatArea = () => {
     createChat(githubLink, type)
       .then((data) => {
         console.log(data);
+        setIsChatComing((prev) => !prev);
       })
       .catch((error) => console.log(error));
   };
@@ -54,6 +57,7 @@ const ChatArea = () => {
             <button
               className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
               onClick={() => {
+                handleSubmit(githubLink, "Chat With Repo");
                 setIsChatWithRepo(true);
                 setIsChatAnalysis(false);
               }}

@@ -11,13 +11,10 @@ import AuthContext from "../context/auth/AuthContext";
 import ChatArea from "./MainChatArea/ChatArea";
 import ChatComponent from "./MainChatArea/ChatComponent";
 import SideBar from "./MainChatArea/SideBar";
+import { getUser } from "../api";
 
 const ChatPage = () => {
   const [repoAnalysis] = useState(false);
-
-  useEffect(() => {
-    console.log("dfdfdf");
-  }, []);
 
   const {
     user,
@@ -26,6 +23,9 @@ const ChatPage = () => {
     setIsChatAnalysis,
     isChatWithRepo,
     setIsChatWithRepo,
+    setUserChatList,
+    userChatList,
+    isChatComing,
   } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -38,6 +38,21 @@ const ChatPage = () => {
   };
 
   console.log(user);
+
+  useEffect(() => {
+    getUser()
+      .then((data) => {
+        console.log(data.user.chats);
+        setUserChatList(data?.user?.chats);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    console.log("user");
+
+    console.log("navigate");
+  }, [isChatComing]);
 
   return (
     <div className="relative background-chat container max-w-full h-[100vh] w-[100vw] flex gap-2">
