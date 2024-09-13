@@ -28,19 +28,23 @@ const App = () => {
     };
 
     getTok();
-  }, [navigate, location.pathname]); 
+  }, [navigate, location.pathname]);
 
   useEffect(() => {
-    getUser()
-      .then((data) => {
-        setUser(data?.user);
-        console.log(data.user.chats)
-        setUserChatList(data?.user?.chats)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (!user) {
+      getUser()
+        .then((data) => {
+          setUser(data?.user);
+          console.log(data.user.chats);
+          setUserChatList(data?.user?.chats);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    console.log("navigate");
+  }, [navigate]);
 
   return (
     <Routes>
