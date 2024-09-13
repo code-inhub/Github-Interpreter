@@ -3,7 +3,6 @@ import ChatRepo from "./MainChatArea/ChatRepo";
 
 import "../styles/chatpage.css";
 
-import { logout } from "../api";
 import { useNavigate } from "react-router-dom";
 // import Analysis from "./RepoComponents/Analysis";
 // import ChatWithRepo from "./RepoComponents/ChatWithRepo";
@@ -28,16 +27,6 @@ const ChatPage = () => {
     setIsChatWithRepo,
   } = useContext(AuthContext);
   const navigate = useNavigate();
-  const handleLogout = () => {
-    logout()
-      .then((res) => {
-        console.log(res);
-        navigate("/login");
-      })
-      .catch((err) => console.log(err));
-  };
-
-  console.log(user);
 
   return (
     <div className="relative background-chat container max-w-full h-[100vh] w-[100vw] flex gap-2">
