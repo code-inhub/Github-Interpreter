@@ -15,6 +15,10 @@ import SideBar from "./MainChatArea/SideBar";
 const ChatPage = () => {
   const [repoAnalysis] = useState(false);
 
+  useEffect(() => {
+    console.log("dfdfdf");
+  }, []);
+
   const {
     user,
     setUser,

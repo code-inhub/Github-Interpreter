@@ -12,6 +12,10 @@ const SideBar = () => {
     userChatList,
   } = useContext(AuthContext);
   // console.log()
+
+  console.log(userChatList);
+
+  const handleSubmit = async (chat) => {};
   return (
     <div className="sidebar w-1/6 h-full backdrop-blur-2xl bg-opacity-70 text-white flex flex-col justify-between p-4">
       <div className="chat-history overflow-y-auto">
@@ -33,6 +37,7 @@ const SideBar = () => {
             <div
               key={index}
               className="chat-item mb-2 p-2 border-b border-gray-600"
+              onClick={() => handleSubmit(chat)}
             >
               {chat} {/* Assuming each chat object has a 'name' property */}
             </div>

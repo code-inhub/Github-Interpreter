@@ -28,6 +28,8 @@ const App = () => {
     };
 
     getTok();
+
+    console.log("pathname", location.pathname);
   }, [navigate, location.pathname]);
 
   useEffect(() => {
@@ -41,6 +43,8 @@ const App = () => {
         .catch((error) => {
           console.log(error);
         });
+
+      console.log("user");
     }
 
     console.log("navigate");
