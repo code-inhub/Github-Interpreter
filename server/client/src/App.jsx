@@ -9,7 +9,8 @@ import { getUser, getToken } from "./api.js";
 import AuthContext from "./context/auth/AuthContext.jsx";
 
 const App = () => {
-  const { user, setUser, setUserChatList } = useContext(AuthContext);
+  const { user, setUser, setUserChatList, userChatList } =
+    useContext(AuthContext);
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -40,7 +41,7 @@ const App = () => {
         .then((data) => {
           setUser(data?.user);
           console.log(data.user.chats);
-          setUserChatList(data?.user?.chats);
+          //setUserChatList(data?.user?.chats);
         })
         .catch((error) => {
           console.log(error);
