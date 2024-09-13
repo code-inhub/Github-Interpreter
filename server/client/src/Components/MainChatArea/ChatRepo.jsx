@@ -26,7 +26,7 @@ const ChatRepo = () => {
               <Answer key = {index} content = {message?.content} />
             )
           ))}
-        </div>
+        </div> 
         <div className="fixed bottom-0 flex gap-1 w-full">
           <Input
             inputState={chatRepo}
@@ -43,7 +43,6 @@ const ChatRepo = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
