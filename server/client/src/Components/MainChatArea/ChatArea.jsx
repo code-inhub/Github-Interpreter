@@ -6,8 +6,8 @@ const ChatArea = () => {
     useContext(AuthContext);
   return (
     <>
-      <div className="chat-page flex-1 p-4 flex flex-col">
-        <div className="flex gap-6 items-center text-white">
+      <div className="p-4 flex-1 ">
+        <div className="flex gap-6 items-center text-white justify-center h-full w-full">
           <button
             className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
             onClick={() => {

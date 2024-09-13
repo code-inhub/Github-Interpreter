@@ -37,9 +37,10 @@ const ChatRepo = () => {
             width={"100%"}
           />
 
-          <button className=" text-white border hover:scale-110 transition-all border-white right-5 px-5 py-1 rounded-2xl backdrop-blur-2xl cursor-pointer">
-            <IoSend className="text-2xl" />
-          </button>
+            <button className=" text-white border hover:scale-110 transition-all border-white right-3 px-4  rounded-2xl backdrop-blur-2xl cursor-pointer">
+              <IoSend className="text-0.5xl" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

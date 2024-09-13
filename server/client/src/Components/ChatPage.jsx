@@ -34,7 +34,7 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="background-chat relative container max-w-full h-[100vh] flex">
+    <div className="relative background-chat container h-[100vh] w-[100vw] flex gap-2">
       {/* Sidebar for chat history */}
       <SideBar />
 
