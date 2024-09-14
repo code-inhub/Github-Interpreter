@@ -17,6 +17,7 @@ const ChatArea = () => {
     userChatList,
     isChatComing,
     setIsChatComing,
+    setChatId,
   } = useContext(AuthContext);
 
   const handleSubmit = (githubLink, type) => {
@@ -24,9 +25,8 @@ const ChatArea = () => {
 
     createChat(githubLink, type)
       .then((data) => {
-        console.log(data);
+        setChatId(data.data._id);
         setGithubLink("");
-
         setIsChatComing((prev) => !prev);
       })
       .catch((error) => console.log(error));
