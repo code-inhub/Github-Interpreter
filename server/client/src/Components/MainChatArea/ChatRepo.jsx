@@ -15,7 +15,7 @@ const ChatRepo = () => {
   const handleSend = async () => {
     console.log("calling");
     if (question.trim() === "") return;
-
+ 
     // Add new question to messages
     const newMessages = [...messages, { type: "question", content: question }];
     setMessages(newMessages);
@@ -41,10 +41,10 @@ const ChatRepo = () => {
         <div className="chat-container relative mt- flex-1">
           <div className="p-2 overflow-y-auto max-h-full text-white h-[90%]">
             {messages?.map((message, index) =>
-              message?.type === "question" ? (
-                <Question key={index} content={message?.content} />
+              message?.isUser === true ? (
+                <Question key={index} content={message?.text} />
               ) : (
-                <Answer key={index} content={message?.content} />
+                <Answer key={index} content={message?.text} />
               )
             )}
           </div>

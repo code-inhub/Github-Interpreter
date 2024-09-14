@@ -43,7 +43,7 @@ exports.addMessage = async (req, res, next) => {
       return next(new errorResponse("Chat not found", 404));
     }
 
-    const message = await Message.create({ chat: chatId, isUser, text });
+    const message = await Message.create({ chatId: chatId, isUser, text });
     chat.messages.push(message._id);
     await chat.save();
 

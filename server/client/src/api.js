@@ -84,8 +84,8 @@ export const getUserChat = async (userId) => {
       withCredentials: true,
     }
   );
-  console.log(data);
-  return data;
+  console.log(data.data);
+  return data.data;
 } catch{
   console.log(error); 
 }
@@ -113,9 +113,10 @@ export const getToken = async () => {
   }
 };
 
-export const getAnswer = async (question, repoUrl, chatId) => {
+export const getAnswer = async (question, githubLink, chatId) => {
   try {
     console.log(question, githubLink, chatId);
+    console.log(chatId)
     const { data } = await axios.post(
       `http://localhost:8080/api/v1/chat/code-correction/${chatId}`,
       {

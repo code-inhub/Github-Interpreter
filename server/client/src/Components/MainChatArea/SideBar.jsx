@@ -32,6 +32,7 @@ const SideBar = () => {
   const handleClick = async (chatId) => {
       getUserChat(chatId)
         .then((data)=> { 
+          console.log(data.messages);
           setMessages(data.messages);
           if(data.type === "Repo Analysis"){
             setIsChatAnalysis(true);
