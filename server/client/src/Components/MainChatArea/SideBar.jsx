@@ -31,10 +31,10 @@ const SideBar = () => {
 
   const handleClick = (chatId) => {
     getUserChat(chatId)
-      .then((response) => {
-        console.log(response.data);
-        setMessages(response.data.messages);
-        if (response.data.type === "Repo Analysis") {
+      .then((data) => {
+        console.log(data);
+        setMessages(data?.messages);
+        if (data.type === "Repo Analysis") {
           setIsChatAnalysis(true);
           setIsChatWithRepo(false);
         } else {
@@ -42,8 +42,8 @@ const SideBar = () => {
           setIsChatAnalysis(false);
         }
 
-        console.log(response.data.githubLink);
-        setGithubLink(response.data.githubLink);
+        console.log(data.githubLink);
+        setGithubLink(data.githubLink);
       })
       .catch((error) => console.log(error));
   };

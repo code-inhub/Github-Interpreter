@@ -6,16 +6,14 @@ import Question from "../Conversation/Question.jsx";
 import { getAnswer } from "../../api.js";
 import AuthContext from "../../context/auth/AuthContext";
 
-
-
 const ChatRepo = () => {
-  const {githubLink,chatId,messages,setMessages} = useContext(AuthContext);
-  const [question, setQuestion] = useState(""); 
+  const { githubLink, chatId, messages, setMessages } = useContext(AuthContext);
+  const [question, setQuestion] = useState("");
 
   const handleSend = async () => {
     console.log("calling");
     if (question.trim() === "") return;
- 
+
     // Add new question to messages
     const newMessages = [...messages, { type: "question", content: question }];
     setMessages(newMessages);
@@ -24,12 +22,12 @@ const ChatRepo = () => {
     // Make API request to get the answer
     try {
       console.log("running getANswer");
-      const answer = await getAnswer(
-        question,
-        githubLink,
-        chatId
-      );
-      setMessages([...newMessages, { type: "answer", content: answer.aiMessage.text }]);
+      console.log(chatId);
+      const answer = await getAnswer(question, githubLink, chatId);
+      setMessages([
+        ...newMessages,
+        { type: "answer", content: answer.aiMessage.text },
+      ]);
     } catch (error) {
       console.error("Error fetching answer:", error);
     }
