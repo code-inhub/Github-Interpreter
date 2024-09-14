@@ -16,6 +16,7 @@ const SideBar = () => {
     setMessages,
     userChatList,
     setGithubLink,
+    setChatId,
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -43,6 +44,7 @@ const SideBar = () => {
             setIsChatAnalysis(false);
           }
           setGithubLink(data.githubLink);
+          setChatId(chatId);
         }  
         )
         .catch((error) => console.log(error));

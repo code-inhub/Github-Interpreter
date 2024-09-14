@@ -14,6 +14,7 @@ const ChatRepo = () => {
 
   const handleSend = async () => {
     console.log("calling");
+    console.log(chatId);
     if (question.trim() === "") return;
  
     // Add new question to messages
@@ -29,7 +30,9 @@ const ChatRepo = () => {
         githubLink,
         chatId
       );
-      setMessages([...newMessages, { type: "answer", content: answer.aiMessage.text }]);
+      console.log(answer.aiMessage.text);
+      setMessages([...newMessages, { isUser: true, content: answer.aiMessage.text }]);
+      console.log(messages);
     } catch (error) {
       console.error("Error fetching answer:", error);
     }

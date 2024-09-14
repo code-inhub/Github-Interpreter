@@ -115,8 +115,8 @@ export const getToken = async () => {
 
 export const getAnswer = async (question, githubLink, chatId) => {
   try {
-    console.log(question, githubLink, chatId);
-    console.log(chatId)
+    // console.log(question, githubLink, chatId);
+    // console.log(chatId)
     const { data } = await axios.post(
       `http://localhost:8080/api/v1/chat/code-correction/${chatId}`,
       {
@@ -127,8 +127,8 @@ export const getAnswer = async (question, githubLink, chatId) => {
         withCredentials: true,
       }
     );
-    console.log(data);
-    return data.aiMessage.text;
+    // console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
   }
