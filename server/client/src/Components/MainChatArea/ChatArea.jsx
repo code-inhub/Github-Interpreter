@@ -19,12 +19,13 @@ const ChatArea = () => {
     setIsChatComing,
   } = useContext(AuthContext);
 
-  const handleSubmit = (githubLink = "gdfgd", type) => {
+  const handleSubmit = (githubLink, type) => {
     console.log(githubLink, type);
 
     createChat(githubLink, type)
       .then((data) => {
         console.log(data);
+        
         setIsChatComing((prev) => !prev);
       })
       .catch((error) => console.log(error));

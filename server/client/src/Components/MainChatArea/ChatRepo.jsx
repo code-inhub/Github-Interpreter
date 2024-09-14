@@ -1,49 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { IoSend } from "react-icons/io5";
 import Input from "../Chat-Input";
 import Answer from "../Conversation/Answer.jsx";
 import Question from "../Conversation/Question.jsx";
 import { getAnswer } from "../../api.js";
+import AuthContext from "../../context/auth/AuthContext";
+
+
 
 const ChatRepo = () => {
-  const [chatRepo, setChatRepo] = useState("");
-  const [messages, setMessages] = useState([
-    {
-      type: "question",
-      content:
-        " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium.What is React?",
-    },
-    {
-      type: "answer",
-      content:
-        " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React? Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium. What is React?Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ullam asperiores non velit nesciunt neque incidunt vel suscipit corporis exercitationem quo, perspiciatis laudantium.  React is a JavaScript library for building user interfaces.",
-    },
-    { type: "question", content: "What is a component?" },
-    {
-      type: "answer",
-      content:
-        "A component is a reusable piece of code that defines how a part of a user interface should appear.",
-    },
-  ]);
+  const {githubLink,chatId,messages,setMessages} = useContext(AuthContext);
+  const [question, setQuestion] = useState(""); 
 
   const handleSend = async () => {
     console.log("calling");
-    if (chatRepo.trim() === "") return;
+    if (question.trim() === "") return;
 
     // Add new question to messages
-    const newMessages = [...messages, { type: "question", content: chatRepo }];
+    const newMessages = [...messages, { type: "question", content: question }];
     setMessages(newMessages);
-    setChatRepo(""); // Clear input field
+    setQuestion(""); // Clear input field
 
     // Make API request to get the answer
     try {
-      const repoUrl = "xvz ";
+      console.log("running getANswer");
       const answer = await getAnswer(
-        chatRepo,
-        repoUrl,
-        "66e2d60549b9bb63c1b428a9"
+        question,
+        githubLink,
+        chatId
       );
-      setMessages([...newMessages, { type: "answer", content: answer }]);
+      setMessages([...newMessages, { type: "answer", content: answer.aiMessage.text }]);
     } catch (error) {
       console.error("Error fetching answer:", error);
     }
@@ -64,9 +50,9 @@ const ChatRepo = () => {
           </div>
           <div className="flex bottom-0 text items-center justify-center w-full px-10">
             <Input
-              inputState={chatRepo}
+              inputState={question}
               placeholder="Write your text here"
-              inputStateFunc={setChatRepo}
+              inputStateFunc={setQuestion}
               type={"text"}
               label={"Your Prompt"}
               width={"100%"}

@@ -76,13 +76,19 @@ export const getUser = async () => {
 };
 
 export const getUserChat = async (userId) => {
-  const { data } = await axios.get(
-    `http://localhost:8080/api/v1/get-chat/${userId}`,
+  try{
+    console.log(userId);
+    const { data } = await axios.get(
+    `http://localhost:8080/api/v1/chat/get-chat/${userId}`,
     {
       withCredentials: true,
     }
   );
-  return data.messages;
+  console.log(data);
+  return data;
+} catch{
+  console.log(error); 
+}
 };
 
 export const getToken = async () => {
@@ -109,11 +115,11 @@ export const getToken = async () => {
 
 export const getAnswer = async (question, repoUrl, chatId) => {
   try {
-    console.log(question, repoUrl, chatId);
+    console.log(question, githubLink, chatId);
     const { data } = await axios.post(
-      `http://localhost:8080/api/v1/chat/code-correction/66e2d60549b9bb63c1b428a9`,
+      `http://localhost:8080/api/v1/chat/code-correction/${chatId}`,
       {
-        repoUrl,
+        repoUrl: githubLink,
         issue: question,
       },
       {

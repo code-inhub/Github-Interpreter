@@ -90,7 +90,7 @@ const getGithubCode = async (repo_url) => {
     return Promise.reject("Invalid URL");
   }
 
-  try {
+  try { 
     const response = await fetch(url);
     if (response.ok) {
       const jsonData = await response.json();

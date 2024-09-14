@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/auth/AuthContext";
 import { FaCircleUser } from "react-icons/fa6";
-import { logout } from "../../api";
+import { logout,getUserChat } from "../../api";
 import {useNavigate} from "react-router-dom";
+import Analysis from './../RepoComponents/Analysis';
 
-
+ 
 const SideBar = () => {
   const {
     setIsChatAnalysis,
@@ -12,7 +13,9 @@ const SideBar = () => {
     isChatAnalysis,
     isChatWithRepo,
     user,
+    setMessages,
     userChatList,
+    setGithubLink,
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -26,7 +29,23 @@ const SideBar = () => {
       .catch((err) => console.log(err));
   };
   
-  const handleSubmit = async (chat) => {};
+  const handleClick = async (chatId) => {
+      getUserChat(chatId)
+        .then((data)=> { 
+          setMessages(data.messages);
+          if(data.type === "Repo Analysis"){
+            setIsChatAnalysis(true);
+            setIsChatWithRepo(false);
+          }
+          else{
+            setIsChatWithRepo(true);
+            setIsChatAnalysis(false);
+          }
+          setGithubLink(data.githubLink);
+        }  
+        )
+        .catch((error) => console.log(error));
+  };
   return (
     <div className="sidebar w-1/6 h-full backdrop-blur-2xl bg-opacity-70 text-white flex flex-col justify-between p-4">
       <div className="chat-history overflow-y-auto">
@@ -44,13 +63,13 @@ const SideBar = () => {
         </button>
         {/* Example chat history items */}
         {userChatList && userChatList.length > 0 ? (
-          userChatList.map((chat, index) => (
+          userChatList.map((chatId, index) => (
             <div
               key={index}
-              className="chat-item mb-2 p-2 border-b border-gray-600"
-              onClick={() => handleSubmit(chat)}
+              className="chat-item mb-2 p-2 border-b border-gray-600 cursor-pointer "
+              onClick={() => handleClick(chatId)}
             >
-              {chat} {/* Assuming each chat object has a 'name' property */}
+              {chatId} {/* Assuming each chat object has a 'name' property */}
             </div>
           ))
         ) : (
