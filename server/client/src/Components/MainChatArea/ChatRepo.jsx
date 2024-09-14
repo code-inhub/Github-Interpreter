@@ -16,7 +16,8 @@ const ChatRepo = () => {
     if (question.trim() === "") return;
 
     // Add new question to messages
-    const newMessages = [...messages, { type: "question", content: question }];
+    console.log(messages);
+    const newMessages = [...messages, { isUser: true, text: question }];
     setMessages(newMessages);
     setQuestion(""); // Clear input field
 
@@ -29,14 +30,14 @@ const ChatRepo = () => {
         chatId
       );
       console.log(answer.aiMessage.text);
-      setMessages([...newMessages, { isUser: true, content: answer.aiMessage.text }]);
+      setMessages([...newMessages, { isUser: false, text: answer.aiMessage.text }]);
       console.log(messages);
     } catch (error) {
       console.error("Error fetching answer:", error);
     }
   };
 
-  return (
+  return ( 
     <div className="flex-1 ">
       <div className="flex flex-col justify-center items-center p-10 w-full h-full">
         <div className="chat-container relative mt- flex-1">
