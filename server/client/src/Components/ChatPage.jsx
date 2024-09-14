@@ -57,7 +57,6 @@ const ChatPage = () => {
       ) : (
         <ChatArea />
       )}
-
     </div>
   );
 };
