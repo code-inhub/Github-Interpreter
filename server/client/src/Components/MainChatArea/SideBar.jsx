@@ -1,11 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import AuthContext from "../../context/auth/AuthContext";
 import { FaCircleUser } from "react-icons/fa6";
-import { logout,getUserChat } from "../../api";
-import {useNavigate} from "react-router-dom";
-import Analysis from './../RepoComponents/Analysis';
+import { logout, getUserChat } from "../../api";
+import { useNavigate } from "react-router-dom";
+import Analysis from "./../RepoComponents/Analysis";
 
- 
 const SideBar = () => {
   const {
     setIsChatAnalysis,
@@ -20,7 +19,7 @@ const SideBar = () => {
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
- 
+
   const handleLogout = () => {
     logout()
       .then((res) => {
@@ -49,6 +48,7 @@ const SideBar = () => {
         )
         .catch((error) => console.log(error));
   };
+
   return (
     <div className="sidebar w-1/6 h-full backdrop-blur-2xl bg-opacity-70 text-white flex flex-col justify-between p-4">
       <div className="chat-history overflow-y-auto">
@@ -85,11 +85,11 @@ const SideBar = () => {
         <article>{user?.username}</article>
       </div>
       <button
-          onClick={handleLogout}
-          className="border justify-end font-bold  fixed top-[95%] bottom-1 right-1  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110 border-white px-3 py-1 rounded-lg bg-gray-300  cursor-pointer transition-all top-6 right-20 cursor-pointer"
-        >
-          Logout
-        </button>
+        onClick={handleLogout}
+        className="border justify-end font-bold  fixed top-[95%] bottom-1 right-1  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110 border-white px-3 py-1 rounded-lg bg-gray-300  cursor-pointer transition-all top-6 right-20 cursor-pointer"
+      >
+        Logout
+      </button>
     </div>
   );
 };

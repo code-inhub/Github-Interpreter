@@ -26,6 +26,7 @@ const ChatArea = () => {
     createChat(githubLink, type)
       .then((data) => {
         setChatId(data.data._id);
+        setGithubLink("");
         setIsChatComing((prev) => !prev);
       })
       .catch((error) => console.log(error));
