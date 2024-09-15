@@ -74,3 +74,61 @@ exports.getChat = async (req, res, next) => {
     next(error); 
   }
 }; 
+
+
+// Controller to get all file names from the repository
+exports.getFileNames = async (req, res, next) => {
+  const { repo_url } = req.body;
+
+  const pattern = /github\.com\/([\w-]+)\/([\w-]+)/;
+  const match = repo_url.match(pattern);
+  let url = "";
+  if (match) {
+    const username = match[1];
+    const repo = match[2];
+    url = `https://api.github.com/repos/${username}/${repo}/contents`;
+  } else {
+    return next(new errorResponse("Invalid URL", 400));
+  }
+
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+      const jsonData = await response.json();
+      const fileNames = [];
+
+      const extractFileNames = (files) => {
+        files.forEach((item) => {
+          if (item.type === "file") {
+            fileNames.push(item.name);
+          } else if (item.type === "dir") {
+            fetchDataForDirectory(item.url).then((subDirFiles) => {
+              extractFileNames(subDirFiles);
+            });
+          }
+        });
+      };
+
+      const fetchDataForDirectory = async (directoryUrl) => {
+        const response = await fetch(directoryUrl);
+        if (response.ok) {
+          return await response.json();
+        } else {
+          throw new Error("Error fetching data from the API.");
+        }
+      };
+
+      extractFileNames(jsonData);
+
+      res.status(200).json({
+        success: true,
+        data: fileNames,
+      });
+    } else {
+      throw new Error("Error fetching data from the API.");
+    }
+  } catch (err) {
+    console.log(err);
+    next(new errorResponse("Error fetching file names", 500));
+  }
+};
