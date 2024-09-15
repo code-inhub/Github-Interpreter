@@ -5,9 +5,10 @@ const {
   repoAnalysisController,
   handleErrorController,
   chatWithRepo,
+  getFileNames,
 } = require("../controllers/openaiController"); 
 
-const { createChat, getChat, addMessage, getFileNames } = require("../controllers/chatController");
+const { createChat, getChat, addMessage } = require("../controllers/chatController");
 const router = express.Router();
 
 // router.post("/summary", summaryController);

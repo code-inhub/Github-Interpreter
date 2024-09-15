@@ -4,6 +4,7 @@ const {getGithubCode} = require("./scrapGithub");
 const { OpenAI } = require("openai");
 const Message = require("../models/messageModel");
 const Chat = require("../models/chatModel");
+const { getFileNames } = require("./scrapFileNames");
 
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
@@ -305,65 +306,16 @@ exports.handleErrorController = async (req, res) => {
 };
 
 
-exports.codeGenerationController = async (req, res) => {
+// Controller to get all file names from the repository
+exports.getFileNames = async (req, res) => {
   try {
-    const { chatId } = req.params;
-    const { repoUrl, taskDescription } = req.body;
-
-    // Find or create a chat
-    let chat;
-    try {
-      if (chatId) {
-        chat = await Chat.findById(chatId);
-        if (!chat) {
-          return res.status(400).json({ message: "Chat not found" });
-        }
-      } else {
-        return res.status(400).json({ message: "Chat ID is required" });
-      }
-    } catch (err) {
-      return res.status(500).json({ message: "Error retrieving chat", error: err.message });
-    }
-
-    const code = await getGithubCode(repoUrl);
-
-    const data = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content: "You are a code generation assistant. Your task is to analyze the provided repository and generate efficient, well-structured code snippets based on the task description. Ensure that the generated code fits seamlessly into the existing project, following best practices and adhering to the project's coding style and architecture. Provide clear explanations for the generated code and suggest any optimizations if necessary."
-        },
-        {
-          role: "user",
-          content: `Task Description: ${taskDescription}`,
-        },
-        {
-          role: "user", 
-          content: `Repository Code: ${code}`,
-        },
-        // {
-        //   role: "user",
-        //   content: `File Structure: ${fileStructure}`,
-        // },
-      ],
-    });
-    
-    if (data && data.choices[0].message.content) {
-      const userMessage = await Message.create({ chatId, text: taskDescription, isUser: true });
-      const aiMessage = await Message.create({ chatId, text: data.choices[0].message.content, isUser: false });
-      chat.messages.push(userMessage._id);
-      chat.messages.push(aiMessage._id);
-      await chat.save();
-      
-      return res.status(200).json({ userMessage, aiMessage });
-    } else {
-      return res.status(400).json({ message: "No valid response from OpenAI" });
-    }
+    const { repo_url } = req.body;
+    const fileNames = await getFileNames (repo_url);
+    return res.status(200).json({ fileNames });
   } catch (err) {
     console.log(err);
     return res.status(500).json({
       message: err.message,
     });
   }
-};
+} 
