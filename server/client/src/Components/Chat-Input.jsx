@@ -10,6 +10,7 @@ const Input = ({
   inputStateFunc,
   type,
   width,
+  icon2,
 }) => {
   const [isFocus, setIsFocus] = useState(false);
   const inputContainerStyle = {
@@ -51,6 +52,7 @@ const Input = ({
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
         />
+        {icon2}
       </motion.div>
     </>
   );
