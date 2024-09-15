@@ -76,19 +76,19 @@ export const getUser = async () => {
 };
 
 export const getUserChat = async (userId) => {
-  try{
+  try {
     console.log(userId);
     const { data } = await axios.get(
-    `http://localhost:8080/api/v1/chat/get-chat/${userId}`,
-    {
-      withCredentials: true,
-    }
-  );
-  console.log(data.data);
-  return data.data;
-} catch{
-  console.log(error); 
-}
+      `http://localhost:8080/api/v1/chat/get-chat/${userId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(data.data);
+    return data.data;
+  } catch {
+    console.log(error);
+  }
 };
 
 export const getToken = async () => {
@@ -116,7 +116,7 @@ export const getToken = async () => {
 export const getAnswer = async (question, githubLink, chatId) => {
   try {
     console.log(question, githubLink, chatId);
-    console.log(chatId)
+    console.log(chatId);
     const { data } = await axios.post(
       `http://localhost:8080/api/v1/chat/code-correction/${chatId}`,
       {
@@ -138,6 +138,30 @@ export const getAnswer = async (question, githubLink, chatId) => {
 export const createChat = async (githubLink, type) => {
   console.log(githubLink, type);
 
+  try {
+    const { data } = await axios.post(
+      `http://localhost:8080/api/v1/chat/create-chat`,
+      {
+        githubLink,
+        type,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getChatAnalysis = async () => {
   try {
     const { data } = await axios.post(
       `http://localhost:8080/api/v1/chat/create-chat`,
