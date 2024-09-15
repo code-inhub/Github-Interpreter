@@ -32,7 +32,7 @@ const ChatArea = () => {
     createChat(githubLink, type)
       .then((data) => {
         setChatId(data.data._id);
-        setGithubLink("");
+        //setGithubLink("");
         setIsChatComing((prev) => !prev);
 
         console.log("chatid", chatId);

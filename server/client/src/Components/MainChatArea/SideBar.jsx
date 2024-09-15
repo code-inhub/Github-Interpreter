@@ -45,13 +45,13 @@ const SideBar = () => {
           setIsChatAnalysis(true);
           setIsChatWithRepo(false);
 
-          //setRepoAnalysisMessage();
+          setRepoAnalysisMessage(data?.messages[1]?.text);
         } else if ((data.type = "Chat with Repo")) {
           setMessages(data.messages);
           setIsChatWithRepo(true);
           setIsChatAnalysis(false);
         }
-        setGithubLink(data.githubLink);
+        //setGithubLink(data.githubLink);
         setChatId(chatId);
       })
       .catch((error) => console.log(error));
