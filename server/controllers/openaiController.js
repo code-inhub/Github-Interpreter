@@ -226,6 +226,7 @@ exports.repoAnalysisController = async (req, res) => {
       const aiMessage = await Message.create({ chatId, text: data.choices[0].message.content, isUser: false });
       chat.messages.push(userMessage._id);
       chat.messages.push(aiMessage._id);
+      await chat.save();
 
       return res.status(200).json({ userMessage, aiMessage });
     } else {
@@ -289,6 +290,7 @@ exports.handleErrorController = async (req, res) => {
       const aiMessage = await Message.create({ chatId, text: data.choices[0].message.content, isUser: false });
       chat.messages.push(userMessage._id);
       chat.messages.push(aiMessage._id);
+      await chat.save();
 
       return res.status(200).json({ userMessage, aiMessage });
     } else {
@@ -352,7 +354,8 @@ exports.codeGenerationController = async (req, res) => {
       const aiMessage = await Message.create({ chatId, text: data.choices[0].message.content, isUser: false });
       chat.messages.push(userMessage._id);
       chat.messages.push(aiMessage._id);
-
+      await chat.save();
+      
       return res.status(200).json({ userMessage, aiMessage });
     } else {
       return res.status(400).json({ message: "No valid response from OpenAI" });
