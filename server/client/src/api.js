@@ -159,15 +159,15 @@ export const getFiles = async (githubLink) => {
   }
 };
 export const createChat = async (githubLink, type, selectedFiles) => {
-  console.log(githubLink, type);
+  console.log(githubLink, type,selectedFiles);
 
   try {
     const { data } = await axios.post(
       `http://localhost:8080/api/v1/chat/create-chat`,
       {
-        githubLink,
         type,
-        selectedFiles,
+        githubLink,
+        filesSelected:selectedFiles,
       },
       {
         headers: {

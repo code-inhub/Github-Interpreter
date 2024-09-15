@@ -7,7 +7,7 @@ const errorResponse = require("../utils/errorResponse");
 // Create a new chat
 exports.createChat = async (req, res, next) => {
   try {
-    const {type, githubLink, selectedFiles } = req.body;
+    const {type, githubLink, filesSelected } = req.body;
     const {id} = req.user;
     const user = await User.findById(id);
     
@@ -21,7 +21,7 @@ exports.createChat = async (req, res, next) => {
       return next(new errorResponse("User not found", 404));
     }
 
-    const chat = await Chat.create({ user: id, type, githubLink });
+    const chat = await Chat.create({ user: id, type, githubLink, filesSelected });
     user.chats.push(chat._id);
     await user.save();
 

@@ -28,9 +28,6 @@ const processFilesForNames = async (files) => {
     "gif",
     "ico",
     "svg",
-    "md",
-    "txt",
-    "css",
   ];
 
   let fileNames = [];
@@ -38,7 +35,6 @@ const processFilesForNames = async (files) => {
   for (const item of files) {
     const fileExtension = item.name.split(".").pop().toLowerCase();
     if (
-      item.name !== ".gitignore" &&
       item.name !== "package-lock.json" &&
       !excludedExtensions.includes(fileExtension)
     ) {

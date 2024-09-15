@@ -1,7 +1,8 @@
 const NodeCache = require("node-cache");
+const Chat = require("../models/chatModel");
 const cache = new NodeCache({ stdTTL: 1800, checkperiod: 300 }); // TTL: 1 hour
 
-const processFiles = async (files) => {
+const processFiles = async (files, includeFiles) => {
   const fetchFileData = async (dataUrl) => {
     try {
       const response = await fetch(dataUrl);
@@ -24,19 +25,16 @@ const processFiles = async (files) => {
     "gif",
     "ico",
     "svg",
-    "md",
-    "txt",
-    "css",
   ];
 
   let allData = "";
 
   for (const item of files) {
     const fileExtension = item.name.split(".").pop().toLowerCase();
+    console.log(item.name);
     if (
-      item.name !== ".gitignore" &&
-      item.name !== "package-lock.json" &&
-      !excludedExtensions.includes(fileExtension)
+      !excludedExtensions.includes(fileExtension) &&
+      includeFiles.includes(item.name) // Check if the file is in the includeFiles list
     ) {
       if (item.type === "file") {
         const dataUrl = item.download_url;
@@ -48,20 +46,20 @@ const processFiles = async (files) => {
         }
       } else if (item.type === "dir") {
         const subRepoUrl = item.url;
-        allData += await fetchDataForDirectory(subRepoUrl);
+        allData += await fetchDataForDirectory(subRepoUrl, includeFiles);
       }
     }
-  }
+  } 
 
   return allData;
 };
-
-const fetchDataForDirectory = async (directoryUrl) => {
+ 
+const fetchDataForDirectory = async (directoryUrl, includeFiles) => {
   try {
     const response = await fetch(directoryUrl);
     if (response.ok) {
       const jsonData = await response.json();
-      const data = await processFiles(jsonData);
+      const data = await processFiles(jsonData, includeFiles);
       return data;
     } else {
       throw new Error("Error fetching data from the API.");
@@ -71,13 +69,26 @@ const fetchDataForDirectory = async (directoryUrl) => {
   }
 };
 
-const getGithubCode = async (repo_url) => {
+const getGithubCode = async (repo_url, chatId) => {
   // Check if data is already cached
-  let cachedData = cache.get(repo_url);
+  let cachedData = cache.get(chatId);
   if (cachedData) {
     console.log("Returning cached data");
+    console.log(cachedData);
     return cachedData;
   }
+ 
+  let chat;
+  try {
+    chat = await Chat.findById(chatId);
+    if (!chat) {
+      return next(new errorResponse("Chat not found", 404));
+    }
+  } catch (err) {
+    return next(new errorResponse("Chat not found", 404));
+  }
+ 
+  const includeFiles = chat.filesSelected;
 
   const pattern = /github\.com\/([\w-]+)\/([\w-]+)/;
   const match = repo_url.match(pattern);
@@ -90,13 +101,14 @@ const getGithubCode = async (repo_url) => {
     return Promise.reject("Invalid URL");
   }
 
-  try { 
+  try {
     const response = await fetch(url);
     if (response.ok) {
       const jsonData = await response.json();
-      const data = await processFiles(jsonData);
+      const data = await processFiles(jsonData, includeFiles); // Pass includeFiles to processFiles
       // Cache the fetched data
-      cache.set(repo_url, data);
+      cache.set(chatId, data);
+      console.log(data)
       return data;
     } else {
       throw new Error("Error fetching data from the API.");
@@ -106,6 +118,5 @@ const getGithubCode = async (repo_url) => {
     return Promise.reject(err);
   }
 };
-
 
 module.exports = { getGithubCode };
