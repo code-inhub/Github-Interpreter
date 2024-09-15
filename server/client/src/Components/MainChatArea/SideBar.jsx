@@ -15,7 +15,7 @@ const SideBar = () => {
     setMessages,
     userChatList,
     setGithubLink,
-    githubLink,
+    setChatId,
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
@@ -28,24 +28,25 @@ const SideBar = () => {
       })
       .catch((err) => console.log(err));
   };
-
-  const handleClick = (chatId) => {
-    getUserChat(chatId)
-      .then((data) => {
-        console.log(data);
-        setMessages(data?.messages);
-        if (data.type === "Repo Analysis") {
-          setIsChatAnalysis(true);
-          setIsChatWithRepo(false);
-        } else {
-          setIsChatWithRepo(true);
-          setIsChatAnalysis(false);
-        }
-
-        console.log(data.githubLink);
-        setGithubLink(data.githubLink);
-      })
-      .catch((error) => console.log(error));
+  
+  const handleClick = async (chatId) => {
+      getUserChat(chatId)
+        .then((data)=> { 
+          console.log(data.messages);
+          setMessages(data.messages);
+          if(data.type === "Repo Analysis"){
+            setIsChatAnalysis(true);
+            setIsChatWithRepo(false);
+          }
+          else{
+            setIsChatWithRepo(true);
+            setIsChatAnalysis(false);
+          }
+          setGithubLink(data.githubLink);
+          setChatId(chatId);
+        }  
+        )
+        .catch((error) => console.log(error));
   };
 
   return (

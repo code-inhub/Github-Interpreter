@@ -127,8 +127,8 @@ export const getAnswer = async (question, githubLink, chatId) => {
         withCredentials: true,
       }
     );
-    console.log(data);
-    return data.aiMessage.text;
+    // console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
   }
