@@ -4,6 +4,7 @@ import { FaCircleUser } from "react-icons/fa6";
 import { logout, getUserChat } from "../../api";
 import { useNavigate } from "react-router-dom";
 import Analysis from "./../RepoComponents/Analysis";
+import { toast } from "react-toastify";
 
 const SideBar = () => {
   const {
@@ -27,9 +28,13 @@ const SideBar = () => {
     logout()
       .then((res) => {
         console.log(res);
+        toast.success("Logout Successful"); 
         navigate("/login");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast.error("Logout Failed");
+      });
   };
 
   const handleClick = async (chatId) => {
@@ -54,7 +59,11 @@ const SideBar = () => {
         //setGithubLink(data.githubLink);
         setChatId(chatId);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        toast.error("Failed to get chat data");
+      }
+      );
   };
 
   return (

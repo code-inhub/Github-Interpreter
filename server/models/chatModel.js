@@ -20,7 +20,7 @@ const chatSchema = new mongoose.Schema({
   githubLink:{
     type:String,
     required:true,
-  },
+  }, 
   filesSelected: [
     {
       type: String,

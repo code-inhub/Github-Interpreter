@@ -42,15 +42,26 @@ const ChatArea = () => {
         if (type === "Repo Analysis") {
           getChatAnalysis(data.data._id, githubLink)
             .then((analysisData) => {
-              console.log("Chat Analysis Data:", analysisData);
+              console.log("Repo Analysis Data:", analysisData);
               setRepoAnalysisMessage(analysisData?.aiMessage?.text);
             })
             .catch((error) => {
-              console.log("Error fetching chat analysis:", error);
+              toast.error("Error fetching Repo analysis");
+              console.log("Error fetching Repo analysis:", error);
             });
         }
+        // if(type === "Chat with Repo"){
+
+        //   console.log("Chat with Repo");
+        // }
+        // if(type === "Handle Error"){
+        //   console.log("Handle Error");
+        // }
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error)
+        toast.error("Failed to create chat");
+      });
   };
 
   const handleDisplay = async (githubLink) => {
