@@ -135,6 +135,29 @@ export const getAnswer = async (question, githubLink, chatId) => {
 };
 
 //https://github.com/code-inhub/HackerMan
+
+export const getFiles = async (githubLink) => {
+  try {
+    const { data } = await axios.post(
+      `http://localhost:8080/api/v1/chat/getFileNames`,
+      {
+        repo_url: githubLink,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    console.log(data);
+
+    return data?.fileNames?.fileNames;
+  } catch (error) {
+    throw error;
+  }
+};
 export const createChat = async (githubLink, type) => {
   console.log(githubLink, type);
 
