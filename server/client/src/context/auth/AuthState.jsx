@@ -11,6 +11,7 @@ const AuthState = ({ children }) => {
   const [githubLink, setGithubLink] = useState("");
   const [chatId, setChatId] = useState("");
   const [messages, setMessages] = useState([]);
+  const [repoAnalysisMessage, setRepoAnalysisMessage] = useState("");
 
   return (
     <AuthContext.Provider
@@ -23,6 +24,8 @@ const AuthState = ({ children }) => {
         isChatComing,
         userChatList,
         chatId,
+        repoAnalysisMessage,
+        setRepoAnalysisMessage,
         messages,
         setMessages,
         setChatId,
@@ -33,7 +36,6 @@ const AuthState = ({ children }) => {
         setGithubLink,
         setIsChatWithRepo,
         setUserChatList,
-
       }}
     >
       {children}

@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import AuthContext from "../../context/auth/AuthContext";
 import Input from "../Chat-Input";
 import { MdDriveFileRenameOutline } from "react-icons/md";
-import { createChat } from "../../api";
+import { createChat, getChatAnalysis } from "../../api";
 
 const ChatArea = () => {
   const {
@@ -18,6 +18,9 @@ const ChatArea = () => {
     isChatComing,
     setIsChatComing,
     setChatId,
+    chatId,
+    repoAnalysisMessage,
+    setRepoAnalysisMessage,
   } = useContext(AuthContext);
 
   const handleSubmit = (githubLink, type) => {
@@ -28,9 +31,26 @@ const ChatArea = () => {
         setChatId(data.data._id);
         setGithubLink("");
         setIsChatComing((prev) => !prev);
+
+        console.log("chatid", chatId);
+
+        if (type === "Repo Analysis") {
+          getChatAnalysis(data.data._id, githubLink)
+            .then((analysisData) => {
+              console.log("Chat Analysis Data:", analysisData);
+              setRepoAnalysisMessage(analysisData?.aiMessage?.text);
+            })
+            .catch((error) => {
+              console.log("Error fetching chat analysis:", error);
+            });
+        }
       })
       .catch((error) => console.log(error));
   };
+
+  console.log(user);
+  console.log(userChatList);
+  console.log(chatId);
 
   return (
     <>

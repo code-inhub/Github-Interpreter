@@ -86,7 +86,7 @@ export const getUserChat = async (userId) => {
     );
     console.log(data.data);
     return data.data;
-  } catch {
+  } catch (error) {
     console.log(error);
   }
 };
@@ -161,13 +161,13 @@ export const createChat = async (githubLink, type) => {
   }
 };
 
-export const getChatAnalysis = async () => {
+export const getChatAnalysis = async (chatId, githubLink) => {
+  console.log(chatId);
   try {
     const { data } = await axios.post(
-      `http://localhost:8080/api/v1/chat/create-chat`,
+      `http://localhost:8080/api/v1/chat/repo-analysis/${chatId}`,
       {
-        githubLink,
-        type,
+        repoUrl: githubLink,
       },
       {
         headers: {
