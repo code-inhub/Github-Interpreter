@@ -26,10 +26,12 @@ const ChatArea = () => {
 
   const [files, setFiles] = useState([]);
 
-  const handleSubmit = (githubLink, type) => {
-    console.log(githubLink, type);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
-    createChat(githubLink, type)
+  const handleSubmit = (githubLink, type, selectedFiles) => {
+    console.log(githubLink, type, selectedFiles);
+
+    createChat(githubLink, type, selectedFiles)
       .then((data) => {
         setChatId(data.data._id);
         //setGithubLink("");
@@ -61,6 +63,14 @@ const ChatArea = () => {
       .catch((error) => console.log(error));
   };
 
+  const handleSelectedFiles = async (file) => {
+    if (selectedFiles.includes(file)) {
+      setSelectedFiles(selectedFiles?.filter((f) => f != file));
+    } else {
+      setSelectedFiles([...selectedFiles, file]);
+    }
+  };
+
   return (
     <>
       <div className="p-4 flex-1 ">
@@ -86,7 +96,12 @@ const ChatArea = () => {
               files?.map((file, key) => (
                 <button
                   key={key}
-                  className="rounded-2xl px-2 py-1 text-white border border-white border-r-2"
+                  className={`rounded-2xl px-2 py-1 text-white border border-white border-r-2 ${
+                    selectedFiles?.includes(file)
+                      ? "bg-purple-500"
+                      : "bg-transparent"
+                  }`}
+                  onClick={() => handleSelectedFiles(file)}
                 >
                   {file}
                 </button>
@@ -97,7 +112,7 @@ const ChatArea = () => {
             <button
               className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
               onClick={() => {
-                handleSubmit(githubLink, "Repo Analysis");
+                handleSubmit(githubLink, "Repo Analysis", selectedFiles);
                 setIsChatAnalysis(true);
                 setIsChatWithRepo(false);
               }}
@@ -107,7 +122,7 @@ const ChatArea = () => {
             <button
               className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
               onClick={() => {
-                handleSubmit(githubLink, "Chat with Repo");
+                handleSubmit(githubLink, "Chat with Repo", selectedFiles);
                 setIsChatWithRepo(true);
                 setIsChatAnalysis(false);
               }}

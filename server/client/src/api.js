@@ -158,7 +158,7 @@ export const getFiles = async (githubLink) => {
     throw error;
   }
 };
-export const createChat = async (githubLink, type) => {
+export const createChat = async (githubLink, type, selectedFiles) => {
   console.log(githubLink, type);
 
   try {
@@ -167,6 +167,7 @@ export const createChat = async (githubLink, type) => {
       {
         githubLink,
         type,
+        selectedFiles,
       },
       {
         headers: {
