@@ -7,6 +7,7 @@ import "../../styles/login.css";
 import { useNavigate } from "react-router-dom";
 import { getToken, login } from "../../api.js";
 import AuthContext from "../../context/auth/AuthContext.jsx";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [emailAddress, setEmailAdress] = useState("");
@@ -32,6 +33,7 @@ const Login = () => {
       .then((response) => {
         if (response && response.status === 200) {
           console.log(response.data);
+          toast.success("Login Successful");
           navigate("/");
         } else {
           // add pop notification : incorrect email Id or password

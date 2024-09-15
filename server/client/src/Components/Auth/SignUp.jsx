@@ -8,6 +8,7 @@ import "../../styles/signup.css";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../api.js";
 import AuthContext from "../../context/auth/AuthContext.jsx";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [emailAddress, setEmailAdress] = useState("");
@@ -34,6 +35,7 @@ const Login = () => {
     console.log("data", userName, emailAddress, password);
     register(userName, emailAddress, password)
       .then((data) => {
+        toast.success("Signup Successful"); 
         console.log(data);
         navigate("/test");
       })
