@@ -17,7 +17,7 @@ const verifyJWT = async (req, res, next) => {
       try {
         const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
         console.log(decodedRefreshToken);
-        const user = await User.findById(decodedRefreshToken?.id);
+        const user = await User.findById(decodedRefreshToken?.id).populate("chats");
         // console.log(user);
         // console.log(user.refreshToken);
         
@@ -58,7 +58,7 @@ const verifyJWT = async (req, res, next) => {
 
           try {
             const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-            const user = await User.findById(decodedRefreshToken?.id);
+            const user = await User.findById(decodedRefreshToken?.id).populate("chats");
 
             if (!user || user.refreshToken !== refreshToken) {
               return next(new errorResponse("Invalid refresh token, please login again3", 401));
@@ -87,7 +87,7 @@ const verifyJWT = async (req, res, next) => {
       }
     }
     // console.log(decodedToken)
-    const user = await User.findById(decodedToken?.id).select("-password -refreshToken");
+    const user = await User.findById(decodedToken?.id).populate("chats");
 
     if (!user) {
       // console.log("this code is running");

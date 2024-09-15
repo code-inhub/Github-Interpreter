@@ -23,7 +23,7 @@ const SideBar = () => {
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
-
+ console.log(user)
   const handleLogout = () => {
     logout()
       .then((res) => {
@@ -38,7 +38,6 @@ const SideBar = () => {
   };
 
   const handleClick = async (chatId) => {
-    //console.log("link", githubLink);
     getUserChat(chatId)
       .then((data) => {
         console.log(data.messages);
@@ -51,12 +50,11 @@ const SideBar = () => {
           setIsChatWithRepo(false);
 
           setRepoAnalysisMessage(data?.messages[1]?.text);
-        } else if ((data.type = "Chat with Repo")) {
+        } else  {
           setMessages(data.messages);
           setIsChatWithRepo(true);
           setIsChatAnalysis(false);
         }
-        //setGithubLink(data.githubLink);
         setChatId(chatId);
       })
       .catch((error) => {
@@ -66,44 +64,51 @@ const SideBar = () => {
       );
   };
 
+  const extractRepoInfo = (url) => {
+    const pattern = /github\.com\/([\w-]+)\/([\w-]+)/;
+    const match = url.match(pattern);
+    if (match) {
+      const username = match[1];
+      const repo = match[2];
+      return `${username}-${repo}`;
+    }
+    return url;
+  };
+
   return (
     <div className="sidebar w-1/6 h-full backdrop-blur-2xl bg-opacity-70 text-white flex flex-col justify-between p-4">
       <div className="chat-history overflow-y-auto">
-        {/* <h2 className="text-xl mb-4">Chat History</h2> */}
         <button
-          className="border hover:scale-110 transition-all border-white   px-8 py-1 rounded-2xl  backdrop-blur-2xl cursor-pointer mb-8 "
+          className="border hover:scale-110 transition-all border-white px-8 py-1 rounded-2xl backdrop-blur-2xl cursor-pointer mb-8"
           onClick={(prev) => {
             isChatAnalysis
               ? setIsChatAnalysis(false)
               : setIsChatWithRepo(false);
           }}
         >
-          {" "}
-          New Chat{" "}
+          New Chat
         </button>
-        {/* Example chat history items */}
         {userChatList && userChatList.length > 0 ? (
-          userChatList.map((chatId, index) => (
+          userChatList.map((obj, index) => (
             <div
               key={index}
-              className="chat-item mb-2 p-2 border-b border-gray-600 cursor-pointer "
-              onClick={() => handleClick(chatId)}
+              className="chat-item mb-2 p-2 border-b border-gray-600 cursor-pointer"
+              onClick={() => handleClick(obj._id)}
             >
-              {chatId} {/* Assuming each chat object has a 'name' property */}
+              {extractRepoInfo(obj.githubLink) + " " + obj.type}
             </div>
           ))
         ) : (
           <div className="text-gray-400">No chats available</div>
         )}
-        {/* Add more chat items as needed */}
       </div>
-      <div className="absolute bottom-0 py-2 flex justify-center  items-center gap-2">
+      <div className="absolute bottom-0 py-2 flex justify-center items-center gap-2">
         <FaCircleUser className="text-white text-2xl" />
         <article>{user?.username}</article>
       </div>
       <button
         onClick={handleLogout}
-        className="border justify-end font-bold  fixed top-[95%] bottom-1 right-1  text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110 border-white px-3 py-1 rounded-lg bg-gray-300  cursor-pointer transition-all top-6 right-20 cursor-pointer"
+        className="border justify-end font-bold fixed top-[95%] bottom-1 right-1 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 hover:scale-110 border-white px-3 py-1 rounded-lg bg-gray-300 cursor-pointer transition-all top-6 right-20 cursor-pointer"
       >
         Logout
       </button>
