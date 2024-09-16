@@ -4,6 +4,7 @@ import Input from "../Chat-Input";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { createChat, getChatAnalysis, getFiles } from "../../api";
 import { IoMdSend } from "react-icons/io";
+import { ColorRing } from "react-loader-spinner";
 
 import "../../styles/sidebar.css";
 
@@ -17,7 +18,7 @@ const ChatArea = () => {
     setUser,
     user,
     setUserChatList,
-    userChatList, 
+    userChatList,
     isChatComing,
     setIsChatComing,
     setChatId,
@@ -33,6 +34,8 @@ const ChatArea = () => {
   const [files, setFiles] = useState([]);
 
   const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (githubLink, type, selectedFiles) => {
     console.log(githubLink, type, selectedFiles);
@@ -56,7 +59,6 @@ const ChatArea = () => {
               console.log("Error fetching Repo analysis:", error);
             });
         }
-
       })
       .catch((error) => {
         console.log(error);
@@ -66,13 +68,20 @@ const ChatArea = () => {
 
   const handleDisplay = async (githubLink) => {
     console.log(githubLink);
+
+    setLoading(true);
+
     getFiles(githubLink)
-    .then((data) => {
-      console.log(data);
-      setFiles(data);
-      setIsDisplay(true);
+      .then((data) => {
+        console.log(data);
+        setFiles(data);
+        setLoading(false);
+        setIsDisplay(true);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   };
 
   const handleSelectedFiles = async (file) => {
@@ -108,9 +117,9 @@ const ChatArea = () => {
               files?.map((file, key) => (
                 <button
                   key={key}
-                  className={`rounded-2xl px-2 py-1 text-white border border-white border-r-2 hover:scale-110 transition-all ${
+                  className={`rounded-2xl px-2 py-1 text-white border border-white border-r-2 hover:scale-110 transition-all bg-purple-400 ${
                     selectedFiles?.includes(file)
-                      ? "bg-purple-500"
+                      ? "bg-purple-700"
                       : "bg-transparent"
                   }`}
                   onClick={() => handleSelectedFiles(file)}
@@ -120,44 +129,60 @@ const ChatArea = () => {
               ))}
           </div>
 
-          {isDisplay && <div className="flex gap-6 items-center text-white justify-center">
-            <button
-              className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
-              disabled={selectedFiles?.length === 0}
-              onClick={() => {
-                handleSubmit(githubLink, "Repo Analysis", selectedFiles);
-                setIsChatAnalysis(true);
-                setIsChatWithRepo(false);
-                setIsError(false);
-              }}
-            >
-              Repo Analysis
-            </button>
-            <button
-              className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
-              disabled={selectedFiles?.length === 0}
-              onClick={() => {
-                handleSubmit(githubLink, "Chat with Repo", selectedFiles);
-                setIsChatWithRepo(true);
-                setIsChatAnalysis(false);
-                setIsError(false);
-              }}
-            >
-              Chat with Repo
-            </button>
-            <button
-              className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
-              disabled={selectedFiles?.length === 0}
-              onClick={() => {
-                handleSubmit(githubLink, "Handle Error", selectedFiles);
-                setIsError(true);
-                setIsChatAnalysis(false);
-                setIsChatWithRepo(false);
-              }}
-            >
-              Handle Error
-            </button>
-          </div>}
+          {isDisplay ? (
+            <div className="flex gap-6 items-center text-white justify-center">
+              <button
+                className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+                disabled={selectedFiles?.length === 0}
+                onClick={() => {
+                  handleSubmit(githubLink, "Repo Analysis", selectedFiles);
+                  setIsChatAnalysis(true);
+                  setIsChatWithRepo(false);
+                  setIsError(false);
+                }}
+              >
+                Repo Analysis
+              </button>
+              <button
+                className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+                disabled={selectedFiles?.length === 0}
+                onClick={() => {
+                  handleSubmit(githubLink, "Chat with Repo", selectedFiles);
+                  setIsChatWithRepo(true);
+                  setIsChatAnalysis(false);
+                  setIsError(false);
+                }}
+              >
+                Chat with Repo
+              </button>
+              <button
+                className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+                disabled={selectedFiles?.length === 0}
+                onClick={() => {
+                  handleSubmit(githubLink, "Handle Error", selectedFiles);
+                  setIsError(true);
+                  setIsChatAnalysis(false);
+                  setIsChatWithRepo(false);
+                }}
+              >
+                Handle Error
+              </button>
+            </div>
+          ) : loading ? (
+            <div className="flex justify-center items-center">
+              <ColorRing
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="color-ring-loading"
+                wrapperStyle={{}}
+                wrapperClass="color-ring-wrapper"
+                colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
         {/*  */}
       </div>
