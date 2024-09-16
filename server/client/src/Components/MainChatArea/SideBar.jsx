@@ -88,11 +88,11 @@ const SideBar = () => {
               ? setIsChatWithRepo(false)
               : setIsError(false);
           }}
-        >
+        > 
           New Chat
         </button>
         {userChatList && userChatList.length > 0 ? (
-          userChatList.map((obj, index) => (
+          userChatList.slice().reverse().map((obj, index) => (
             <div
               key={index}
               className="chat-item mb-2 p-2 border-b border-gray-600 cursor-pointer"
