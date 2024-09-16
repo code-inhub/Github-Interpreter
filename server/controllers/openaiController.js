@@ -11,7 +11,7 @@ const openai = new OpenAI(process.env.OPENAI_API_KEY);
 exports.codeCorrectionController = async (req, res) => {
   try {
     const { chatId } = req.params;
-    const { repoUrl, issue } = req.body;
+    const {  issue } = req.body;
 
     // Find or create a chat
     let chat;
@@ -68,7 +68,7 @@ exports.codeCorrectionController = async (req, res) => {
 exports.chatWithRepo = async (req, res) => {
   try {
     const { chatId } = req.params;
-    const { repoUrl, userMessageContent } = req.body;
+    const { userMessageContent } = req.body;
 
     // Find or create a chat
     let chat;
@@ -85,7 +85,7 @@ exports.chatWithRepo = async (req, res) => {
       return res.status(500).json({ message: "Error retrieving chat", error: err.message });
     }
 
-    const code = await getGithubCode(repoUrl,chatId);
+    const code = await getGithubCode(chat.githubLink,chatId);
 
     const data = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -129,7 +129,6 @@ exports.chatWithRepo = async (req, res) => {
 exports.repoAnalysisController = async (req, res) => {
   try {
     const { chatId } = req.params;
-    const { repoUrl } = req.body;
 
     // Find or create a chat
     let chat;
@@ -146,7 +145,7 @@ exports.repoAnalysisController = async (req, res) => {
       return res.status(500).json({ message: "Error retrieving chat", error: err.message });
     }
 
-    const code = await getGithubCode(repoUrl,chatId);
+    const code = await getGithubCode(chat.githubLink,chatId);
 
     const data = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -185,7 +184,7 @@ exports.repoAnalysisController = async (req, res) => {
 exports.handleErrorController = async (req, res) => {
   try {
     const { chatId } = req.params;
-    const { repoUrl, errorDescription } = req.body;
+    const { errorDescription } = req.body;
 
     // Find or create a chat
     let chat;
@@ -202,7 +201,7 @@ exports.handleErrorController = async (req, res) => {
       return res.status(500).json({ message: "Error retrieving chat", error: err.message });
     }
 
-    const code = await getGithubCode(repoUrl,chatId);
+    const code = await getGithubCode(chat.githubLink,chatId);
 
     const data = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
