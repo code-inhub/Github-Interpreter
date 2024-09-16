@@ -79,7 +79,7 @@ const LandingPage = () => {
         </section>
         <div className="flex items-center justify-center py-13">
           <button
-            className="text-white px-6 py-1 mb-10 text-3xl font-bold backdrop-blur-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 rounded-2xl"
+            className="px-6 py-1 mb-10 text-3xl font-bold backdrop-blur-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 rounded-2xl"
             onClick={handleButtonClick}
           >
             Lets Go"logo"
@@ -91,3 +91,4 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
