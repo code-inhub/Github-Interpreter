@@ -17,7 +17,7 @@ const ChatArea = () => {
     setUser,
     user,
     setUserChatList,
-    userChatList,
+    userChatList, 
     isChatComing,
     setIsChatComing,
     setChatId,
@@ -26,6 +26,7 @@ const ChatArea = () => {
     setRepoAnalysisMessage,
     isError,
     setIsError,
+    isDisplay,
     setIsDisplay,
   } = useContext(AuthContext);
 
@@ -41,7 +42,7 @@ const ChatArea = () => {
         setChatId(data.data._id);
         //setGithubLink("");
         setIsChatComing((prev) => !prev);
-
+        setIsDisplay(false);
         console.log("chatid", chatId);
 
         if (type === "Repo Analysis") {
@@ -55,13 +56,7 @@ const ChatArea = () => {
               console.log("Error fetching Repo analysis:", error);
             });
         }
-        // if(type === "Chat with Repo"){
 
-        //   console.log("Chat with Repo");
-        // }
-        // if(type === "Handle Error"){
-        //   console.log("Handle Error");
-        // }
       })
       .catch((error) => {
         console.log(error);
@@ -125,7 +120,7 @@ const ChatArea = () => {
               ))}
           </div>
 
-          <div className="flex gap-6 items-center text-white justify-center">
+          {isDisplay && <div className="flex gap-6 items-center text-white justify-center">
             <button
               className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
               disabled={selectedFiles?.length === 0}
@@ -162,7 +157,7 @@ const ChatArea = () => {
             >
               Handle Error
             </button>
-          </div>
+          </div>}
         </div>
         {/*  */}
       </div>

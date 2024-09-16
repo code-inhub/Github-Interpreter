@@ -19,7 +19,7 @@ exports.sendTokens = async (user, statusCode, res) => {
     httpOnly: true,
     //secure: true,
     maxAge: 1 * 24 * 60 * 60 * 1000,
-  });
+  }); 
 
   user.refreshToken = refreshToken;
   await user.save({ validateBeforeSave: false });
@@ -72,7 +72,7 @@ exports.loginController = async (req, res, next) => {
     next(error);
   }
 };
-
+ 
 //LOGOUT
 exports.logoutController = async (req, res) => {
   res.clearCookie("authToken");
