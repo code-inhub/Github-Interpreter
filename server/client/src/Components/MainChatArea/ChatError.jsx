@@ -7,10 +7,17 @@ import { useState } from "react";
 import Input from "../Chat-Input";
 import Question from "../Conversation/Question";
 import Answer from "../Conversation/Answer";
+import { Comment } from "react-loader-spinner";
 
 const ChatError = () => {
-  const { githubLink, chatId, errorMessages, setErrorMessages } =
-    useContext(AuthContext);
+  const {
+    githubLink,
+    chatId,
+    errorMessages,
+    setErrorMessages,
+    isChatLoading,
+    setIsChatLoading,
+  } = useContext(AuthContext);
   const [question, setQuestion] = useState("");
 
   const handleSend = async () => {
@@ -27,6 +34,8 @@ const ChatError = () => {
     // Make API request to get the answer
     try {
       console.log("running getANswer");
+
+      setIsChatLoading(true);
       const answer = await getErrorMessages(githubLink, chatId, question);
       console.log(answer.aiMessage.text);
       setErrorMessages([
@@ -34,8 +43,10 @@ const ChatError = () => {
         { isUser: false, text: answer.aiMessage.text },
       ]);
       console.log(answer);
+      setIsChatLoading(false);
     } catch (error) {
       console.error("Error fetching answer:", error);
+      setIsChatLoading(false);
     }
   };
   return (
@@ -50,6 +61,20 @@ const ChatError = () => {
               ) : (
                 <Answer key={index} content={message?.text} />
               )
+            )}
+            {isChatLoading && (
+              <div className="mt-1">
+                <Comment
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="comment-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="comment-wrapper"
+                  color="#800080"
+                  backgroundColor="#800080"
+                />
+              </div>
             )}
           </div>
           <div className="flex bottom-0 text items-center justify-center w-full px-10">
