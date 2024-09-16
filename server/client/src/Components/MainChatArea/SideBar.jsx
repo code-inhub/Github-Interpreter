@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../context/auth/AuthContext";
 import { FaCircleUser } from "react-icons/fa6";
 import { logout, getUserChat } from "../../api";
@@ -23,6 +23,8 @@ const SideBar = () => {
     setIsError,
   } = useContext(AuthContext);
 
+  const [selectedChatId, setSelectedChatId] = useState("");
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -39,6 +41,7 @@ const SideBar = () => {
   };
 
   const handleClick = async (chatId) => {
+    setSelectedChatId(chatId);
     getUserChat(chatId)
       .then((data) => {
         console.log(data.messages);
@@ -86,20 +89,27 @@ const SideBar = () => {
               : isChatWithRepo
               ? setIsChatWithRepo(false)
               : setIsError(false);
+
+            setSelectedChatId("");
           }}
         >
           New Chat
         </button>
         {userChatList && userChatList.length > 0 ? (
-          userChatList.slice().reverse().map((obj, index) => (
-            <div
-              key={index}
-              className="chat-item mb-2 p-2 border-b border-gray-600 cursor-pointer"
-              onClick={() => handleClick(obj._id)}
-            >
-              {extractRepoInfo(obj.githubLink) + " " + obj.type}
-            </div>
-          ))
+          userChatList
+            .slice()
+            .reverse()
+            .map((obj, index) => (
+              <div
+                key={index}
+                className={`chat-item mb-2 px-2 py-2 border-b border-gray-600 cursor-pointer rounded-l-lg  ${
+                  obj._id === selectedChatId && "bg-purple-600"
+                }`}
+                onClick={() => handleClick(obj._id)}
+              >
+                {extractRepoInfo(obj.githubLink) + " " + obj.type}
+              </div>
+            ))
         ) : (
           <div className="text-gray-400">No chats available</div>
         )}

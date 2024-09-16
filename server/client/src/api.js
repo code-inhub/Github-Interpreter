@@ -124,10 +124,13 @@ export const getAnswer = async (question, githubLink, chatId) => {
         userMessageContent: question,
       },
       {
+        headers: {
+          "Content-Type": "application/json",
+        },
         withCredentials: true,
       }
     );
-    // console.log(data);
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error);

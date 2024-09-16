@@ -39,7 +39,7 @@ const ChatError = () => {
     }
   };
   return (
-    <div className="flex-1 ">
+    <div className="flex-1 overflow-x-auto">
       <div className="flex flex-col justify-center items-center p-10 w-full h-full">
         <div className="chat-container relative mt- flex-1">
           <div className="p-2 overflow-y-auto max-h-full text-white h-[90%]">

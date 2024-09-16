@@ -24,21 +24,20 @@ const ChatRepo = () => {
     // Make API request to get the answer
     try {
       console.log("running getANswer");
-      const answer = await getAnswer(
-        question,
-        githubLink,
-        chatId
-      );
+      const answer = await getAnswer(question, githubLink, chatId);
       console.log(answer.aiMessage.text);
-      setMessages([...newMessages, { isUser: false, text: answer.aiMessage.text }]);
+      setMessages([
+        ...newMessages,
+        { isUser: false, text: answer.aiMessage.text },
+      ]);
       console.log(messages);
     } catch (error) {
       console.error("Error fetching answer:", error);
     }
   };
 
-  return ( 
-    <div className="flex-1 ">
+  return (
+    <div className="flex-1 overflow-x-auto">
       <div className="flex flex-col justify-center items-center p-10 w-full h-full">
         <div className="chat-container relative mt- flex-1">
           <div className="p-2 overflow-y-auto max-h-full text-white h-[90%]">
