@@ -80,19 +80,20 @@ const LandingPage = () => {
         </section>
 
         <div className="flex items-center justify-center">
-        <div onClick={handleButtonClick}  className="flex gap-3 cursor-pointer items-center justify-center bg-black px-2 w-[14%] rounded-2xl py-2"  >
+          <div
+            onClick={handleButtonClick}
+            className="flex gap-3 cursor-pointer items-center justify-center bg-black px-2 w-[14%] rounded-2xl py-2"
+          >
+            <span className="bg-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all font-bold duration-30 text-3xl cursor-pointer">
+              Lets Go{" "}
+            </span>
 
-         <span className="bg-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all font-bold duration-30 text-3xl cursor-pointer">Lets Go </span>
-        
-            
             <FaArrowAltCircleRight className="text-2xl  text-emerald-100" />
-             
+          </div>
         </div>
-        </div>
-      </div>cla
+      </div>
     </>
   );
 };
 
 export default LandingPage;
-

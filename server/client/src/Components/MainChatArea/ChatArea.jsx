@@ -5,6 +5,8 @@ import { MdDriveFileRenameOutline } from "react-icons/md";
 import { createChat, getChatAnalysis, getFiles } from "../../api";
 import { IoMdSend } from "react-icons/io";
 
+import "../../styles/sidebar.css";
+
 const ChatArea = () => {
   const {
     isChatAnalysis,
@@ -103,7 +105,7 @@ const ChatArea = () => {
               />
             }
           />
-          <div className="flex flex-wrap gap-2 items-center justify-center w-[70%]">
+          <div className="flex flex-wrap gap-2 items-center justify-center w-[70%] sidebar">
             {" "}
             {files.length != 0 &&
               files?.map((file, key) => (

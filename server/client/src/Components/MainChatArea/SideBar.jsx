@@ -5,6 +5,8 @@ import { logout, getUserChat } from "../../api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import "../../styles/sidebar.css";
+
 const SideBar = () => {
   const {
     setIsChatAnalysis,
@@ -21,6 +23,7 @@ const SideBar = () => {
     repoAnalysisMessage,
     setRepoAnalysisMessage,
     setIsError,
+    setErrorMessages,
   } = useContext(AuthContext);
 
   const [selectedChatId, setSelectedChatId] = useState("");
@@ -42,22 +45,31 @@ const SideBar = () => {
 
   const handleClick = async (chatId) => {
     setSelectedChatId(chatId);
+    setRepoAnalysisMessage("");
+    setMessages([]);
+    setErrorMessages([]);
     getUserChat(chatId)
       .then((data) => {
         console.log(data.messages);
-        setRepoAnalysisMessage("");
 
         if (data.type === "Repo Analysis") {
           console.log("repo analyser", data);
 
           setIsChatAnalysis(true);
           setIsChatWithRepo(false);
+          setIsError(false);
 
           setRepoAnalysisMessage(data?.messages[1]?.text);
-        } else {
+        } else if (data.type === "Chat with Repo") {
           setMessages(data.messages);
           setIsChatWithRepo(true);
           setIsChatAnalysis(false);
+          setIsError(false);
+        } else {
+          setErrorMessages(data.messages);
+          setIsChatWithRepo(false);
+          setIsChatAnalysis(false);
+          setIsError(true);
         }
         setChatId(chatId);
       })
@@ -80,7 +92,9 @@ const SideBar = () => {
 
   return (
     <div className="sidebar w-1/6 h-full backdrop-blur-2xl bg-opacity-70 text-white flex flex-col justify-between p-4">
-      <div className="chat-history overflow-y-auto pb-20"> {/* Add padding to the bottom */}
+      <div className="chat-history overflow-y-auto pb-20">
+        {" "}
+        {/* Add padding to the bottom */}
         <button
           className="border hover:scale-110 transition-all border-white px-8 py-1 rounded-2xl backdrop-blur-2xl cursor-pointer mb-8 mt-2 ml-2"
           onClick={() => {
@@ -102,7 +116,7 @@ const SideBar = () => {
             .map((obj, index) => (
               <div
                 key={index}
-                className={`chat-item mb-2 px-2 py-2 border-b border-gray-600 cursor-pointer rounded-l-lg  ${
+                className={`chat-item mb-2 px-2 py-2 border-b border-gray-600 cursor-pointer rounded-l-lg sidebar  ${
                   obj._id === selectedChatId && "bg-purple-600"
                 }`}
                 onClick={() => handleClick(obj._id)}
@@ -114,8 +128,10 @@ const SideBar = () => {
           <div className="text-gray-400">No chats available</div>
         )}
       </div>
-      <div className="relative  flex    items-end gap-2"> {/* Change absolute to relative */}
-        <div className="flex gap-2">  
+      <div className="relative flex items-end gap-12">
+        {" "}
+        {/* Change absolute to relative */}
+        <div className="flex gap-2">
           <FaCircleUser className="text-white text-2xl" />
           <article>{user?.username}</article>
         </div>
