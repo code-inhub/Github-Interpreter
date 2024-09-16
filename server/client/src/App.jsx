@@ -47,7 +47,7 @@ const App = () => {
           //setUserChatList(data?.user?.chats);
         })
         .catch((error) => {
-          toast.error("Failed to get user data");
+          // toast.error("Failed to get user data");
           console.error(error);
         });
 
