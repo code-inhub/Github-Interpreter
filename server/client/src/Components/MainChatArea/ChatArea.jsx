@@ -24,6 +24,7 @@ const ChatArea = () => {
     setRepoAnalysisMessage,
     isError,
     setIsError,
+    setIsDisplay,
   } = useContext(AuthContext);
 
   const [files, setFiles] = useState([]);
@@ -69,9 +70,10 @@ const ChatArea = () => {
   const handleDisplay = async (githubLink) => {
     console.log(githubLink);
     getFiles(githubLink)
-      .then((data) => {
-        console.log(data);
-        setFiles(data);
+    .then((data) => {
+      console.log(data);
+      setFiles(data);
+      setIsDisplay(true);
       })
       .catch((error) => console.log(error));
   };
@@ -91,7 +93,7 @@ const ChatArea = () => {
           <Input
             icon={<MdDriveFileRenameOutline className="text-white" />}
             inputState={githubLink}
-            placeholder="Write your text here"
+            placeholder="Write your Github Repo link here"
             inputStateFunc={setGithubLink}
             type={"text"}
             label={"Your Github Repo Link"}

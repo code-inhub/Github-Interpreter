@@ -13,7 +13,7 @@ const AuthState = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [repoAnalysisMessage, setRepoAnalysisMessage] = useState("");
   const [errorMessages, setErrorMessages] = useState([]);
-
+  const [isDisplay, setIsDisplay] = useState(false);
   const [isError, setIsError] = useState(false);
 
   return (
@@ -21,7 +21,6 @@ const AuthState = ({ children }) => {
       value={{
         user,
         isError,
-        setIsError,
         isAuthenticated,
         isChatAnalysis,
         isChatWithRepo,
@@ -29,11 +28,14 @@ const AuthState = ({ children }) => {
         isChatComing,
         userChatList,
         errorMessages,
-        setErrorMessages,
         chatId,
-        repoAnalysisMessage,
-        setRepoAnalysisMessage,
         messages,
+        repoAnalysisMessage,
+        isDisplay,
+        setIsDisplay,
+        setIsError,
+        setErrorMessages,
+        setRepoAnalysisMessage,
         setMessages,
         setChatId,
         setUser,
