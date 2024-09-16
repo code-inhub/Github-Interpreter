@@ -5,6 +5,7 @@ import Answer from "../Conversation/Answer.jsx";
 import Question from "../Conversation/Question.jsx";
 import { getAnswer } from "../../api.js";
 import AuthContext from "../../context/auth/AuthContext";
+import "../../styles/sidebar.css";
 
 const ChatRepo = () => {
   const { githubLink, chatId, messages, setMessages } = useContext(AuthContext);
@@ -39,7 +40,7 @@ const ChatRepo = () => {
   return (
     <div className="flex-1 overflow-x-auto">
       <div className="flex flex-col justify-center items-center p-10 w-full h-full">
-        <div className="chat-container relative mt- flex-1">
+        <div className="chat-container relative flex-1 sidebar">
           <div className="p-2 overflow-y-auto max-h-full text-white h-[90%]">
             {messages?.map((message, index) =>
               message?.isUser === true ? (

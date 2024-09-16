@@ -120,7 +120,6 @@ export const getAnswer = async (question, githubLink, chatId) => {
     const { data } = await axios.post(
       `http://localhost:8080/api/v1/chat/chat-Repo/${chatId}`,
       {
-        repoUrl: githubLink,
         userMessageContent: question,
       },
       {
@@ -141,10 +140,10 @@ export const getAnswer = async (question, githubLink, chatId) => {
 
 export const getErrorMessages = async (githubLink, chatId, question) => {
   try {
+    console.log("messages", githubLink, chatId, question);
     const { data } = await axios.post(
       `http://localhost:8080/api/v1/chat/handle-error/${chatId}`,
       {
-        repoUrl: githubLink,
         errorDescription: question,
       },
       {
