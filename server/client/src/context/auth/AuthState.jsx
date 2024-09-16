@@ -12,17 +12,24 @@ const AuthState = ({ children }) => {
   const [chatId, setChatId] = useState("");
   const [messages, setMessages] = useState([]);
   const [repoAnalysisMessage, setRepoAnalysisMessage] = useState("");
+  const [errorMessages, setErrorMessages] = useState([]);
+
+  const [isError, setIsError] = useState(false);
 
   return (
     <AuthContext.Provider
       value={{
         user,
+        isError,
+        setIsError,
         isAuthenticated,
         isChatAnalysis,
         isChatWithRepo,
         githubLink,
         isChatComing,
         userChatList,
+        errorMessages,
+        setErrorMessages,
         chatId,
         repoAnalysisMessage,
         setRepoAnalysisMessage,

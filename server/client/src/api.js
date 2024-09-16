@@ -136,6 +136,30 @@ export const getAnswer = async (question, githubLink, chatId) => {
 
 //https://github.com/code-inhub/HackerMan
 
+export const getErrorMessages = async (githubLink, chatId, question) => {
+  try {
+    const { data } = await axios.post(
+      `http://localhost:8080/api/v1/chat/handle-error/${chatId}`,
+      {
+        repoUrl: githubLink,
+        errorDescription: question,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    console.log(data);
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const getFiles = async (githubLink) => {
   try {
     const { data } = await axios.post(
@@ -159,7 +183,7 @@ export const getFiles = async (githubLink) => {
   }
 };
 export const createChat = async (githubLink, type, selectedFiles) => {
-  console.log(githubLink, type,selectedFiles);
+  console.log(githubLink, type, selectedFiles);
 
   try {
     const { data } = await axios.post(
@@ -167,7 +191,7 @@ export const createChat = async (githubLink, type, selectedFiles) => {
       {
         type,
         githubLink,
-        filesSelected:selectedFiles,
+        filesSelected: selectedFiles,
       },
       {
         headers: {
