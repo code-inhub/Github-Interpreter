@@ -12,6 +12,7 @@ const SideBar = () => {
     setIsChatWithRepo,
     isChatAnalysis,
     isChatWithRepo,
+    isError,
     user,
     setMessages,
     userChatList,
@@ -20,10 +21,11 @@ const SideBar = () => {
     setChatId,
     repoAnalysisMessage,
     setRepoAnalysisMessage,
+    setIsError,
   } = useContext(AuthContext);
 
   const navigate = useNavigate();
-  console.log(user);
+  //console.log(user);
   const handleLogout = () => {
     logout()
       .then((res) => {
@@ -82,7 +84,9 @@ const SideBar = () => {
           onClick={(prev) => {
             isChatAnalysis
               ? setIsChatAnalysis(false)
-              : setIsChatWithRepo(false);
+              : isChatWithRepo
+              ? setIsChatWithRepo(false)
+              : setIsError(false);
           }}
         >
           New Chat

@@ -22,6 +22,8 @@ const ChatArea = () => {
     chatId,
     repoAnalysisMessage,
     setRepoAnalysisMessage,
+    isError,
+    setIsError,
   } = useContext(AuthContext);
 
   const [files, setFiles] = useState([]);
@@ -127,6 +129,7 @@ const ChatArea = () => {
                 handleSubmit(githubLink, "Repo Analysis", selectedFiles);
                 setIsChatAnalysis(true);
                 setIsChatWithRepo(false);
+                setIsError(false);
               }}
             >
               Repo Analysis
@@ -138,11 +141,21 @@ const ChatArea = () => {
                 handleSubmit(githubLink, "Chat with Repo", selectedFiles);
                 setIsChatWithRepo(true);
                 setIsChatAnalysis(false);
+                setIsError(false);
               }}
             >
               Chat with Repo
             </button>
-            <button className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer">
+            <button
+              className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+              disabled={selectedFiles?.length === 0}
+              onClick={() => {
+                handleSubmit(githubLink, "Handle Error", selectedFiles);
+                setIsError(true);
+                setIsChatAnalysis(false);
+                setIsChatWithRepo(false);
+              }}
+            >
               Handle Error
             </button>
           </div>

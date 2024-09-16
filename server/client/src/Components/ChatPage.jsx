@@ -12,6 +12,7 @@ import ChatComponent from "./MainChatArea/ChatComponent";
 import SideBar from "./MainChatArea/SideBar";
 import { getUser } from "../api";
 import { toast } from "react-hot-toast";
+import ChatError from "./MainChatArea/ChatError";
 
 const ChatPage = () => {
   const [repoAnalysis] = useState(false);
@@ -26,6 +27,8 @@ const ChatPage = () => {
     setUserChatList,
     userChatList,
     isChatComing,
+    isError,
+    setIsError,
   } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -56,6 +59,8 @@ const ChatPage = () => {
         <ChatComponent />
       ) : isChatWithRepo ? (
         <ChatRepo />
+      ) : isError ? (
+        <ChatError />
       ) : (
         <ChatArea />
       )}
