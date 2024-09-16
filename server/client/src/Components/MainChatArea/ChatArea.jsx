@@ -59,7 +59,7 @@ const ChatArea = () => {
         // }
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
         toast.error("Failed to create chat");
       });
   };
@@ -107,7 +107,7 @@ const ChatArea = () => {
               files?.map((file, key) => (
                 <button
                   key={key}
-                  className={`rounded-2xl px-2 py-1 text-white border border-white border-r-2 ${
+                  className={`rounded-2xl px-2 py-1 text-white border border-white border-r-2 hover:scale-110 transition-all ${
                     selectedFiles?.includes(file)
                       ? "bg-purple-500"
                       : "bg-transparent"
@@ -122,6 +122,7 @@ const ChatArea = () => {
           <div className="flex gap-6 items-center text-white justify-center">
             <button
               className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+              disabled={selectedFiles?.length === 0}
               onClick={() => {
                 handleSubmit(githubLink, "Repo Analysis", selectedFiles);
                 setIsChatAnalysis(true);
@@ -132,6 +133,7 @@ const ChatArea = () => {
             </button>
             <button
               className="border hover:scale-110 transition-all text-4xl border-white px-3 py-1 rounded-full backdrop-blur-2xl cursor-pointer"
+              disabled={selectedFiles?.length === 0}
               onClick={() => {
                 handleSubmit(githubLink, "Chat with Repo", selectedFiles);
                 setIsChatWithRepo(true);

@@ -35,7 +35,7 @@ const Login = () => {
     console.log("data", userName, emailAddress, password);
     register(userName, emailAddress, password)
       .then((data) => {
-        toast.success("Signup Successful"); 
+        toast.success("Signup Successful");
         console.log(data);
         navigate("/test");
       })

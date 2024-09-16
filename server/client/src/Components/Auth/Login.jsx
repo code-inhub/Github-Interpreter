@@ -34,7 +34,7 @@ const Login = () => {
         if (response && response.status === 200) {
           console.log(response.data);
           toast.success("Login Successful");
-          navigate("/");
+          navigate("/chatpage");
         } else {
           // add pop notification : incorrect email Id or password
           console.log("Login failed");

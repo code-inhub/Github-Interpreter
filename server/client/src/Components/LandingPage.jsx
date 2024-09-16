@@ -29,12 +29,15 @@ const LandingPage = () => {
 
   const handleButtonClick = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/auth/verify-token", {
-        withCredentials: true,
-      });
-  
+      const response = await axios.get(
+        "http://localhost:8080/api/v1/auth/verify-token",
+        {
+          withCredentials: true,
+        }
+      );
+
       if (response.status === 200) {
-        navigate("/test");
+        navigate("/chatpage");
       } else {
         console.log("User is not logged in");
         navigate("/login");
@@ -49,9 +52,10 @@ const LandingPage = () => {
     <>
       <div className="container p-4 bg-cover bg-center bg-no-repeat bg-yellow-50 fade-in-bg background-image max-w-full h-screen flex flex-col justify-between">
         <div className="flex justify-center mt-10">
-        <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300">
+          <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300">
             Github-Interpreter
-          </h1>        </div>
+          </h1>{" "}
+        </div>
         <section className="flex flex-1 items-center justify-between px-10">
           <div className="w-3/5 flex flex-col gap-6 p-6 rounded-lg">
             {lines.map((line) => {
@@ -74,16 +78,16 @@ const LandingPage = () => {
           </div>
         </section>
         <div className="flex items-center justify-center py-13">
-        <button
-  className="text-white px-6 py-1 mb-10 text-3xl font-bold backdrop-blur-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 rounded-2xl"
-  onClick={handleButtonClick} 
->
-  Lets Go"logo"
-</button>
+          <button
+            className="text-white px-6 py-1 mb-10 text-3xl font-bold backdrop-blur-xl text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 via-red-500 via-yellow-500 to-green-500 transition-all duration-300 rounded-2xl"
+            onClick={handleButtonClick}
+          >
+            Lets Go"logo"
+          </button>
         </div>
       </div>
     </>
   );
-}; 
+};
 
-export default LandingPage; 
+export default LandingPage;

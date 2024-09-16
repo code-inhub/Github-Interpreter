@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import LandingPage from "./Components/LandingPage";
 import SignUp from "./Components/Auth/SignUp.jsx";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
@@ -63,7 +63,7 @@ const App = () => {
         <Route path="/" element={<LandingPage />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<SignUp />}></Route>
-        <Route path="/test" element={<ChatPage />}></Route>
+        <Route path="/chatpage" element={<ChatPage />}></Route>
       </Routes>
       <ToastContainer
         position="top-center"

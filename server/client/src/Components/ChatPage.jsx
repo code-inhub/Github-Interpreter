@@ -11,7 +11,7 @@ import ChatArea from "./MainChatArea/ChatArea";
 import ChatComponent from "./MainChatArea/ChatComponent";
 import SideBar from "./MainChatArea/SideBar";
 import { getUser } from "../api";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const ChatPage = () => {
   const [repoAnalysis] = useState(false);
@@ -36,7 +36,7 @@ const ChatPage = () => {
         setUserChatList(data?.user?.chats);
       })
       .catch((error) => {
-        toast.error("Failed to get user data"); 
+        toast.error("Failed to get user data");
         console.log(error);
       });
 
