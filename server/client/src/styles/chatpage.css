@@ -18,7 +18,7 @@
 .chat-container {
   backdrop-filter: blur(7px);
   height: 75%;
-  width: 100%;
+  width: 100%; 
 
   border-radius: 10px;
   box-shadow: 0 10px 20px #000000;

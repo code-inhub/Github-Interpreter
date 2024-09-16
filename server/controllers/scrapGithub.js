@@ -33,10 +33,9 @@ const processFiles = async (files, includeFiles) => {
     const fileExtension = item.name.split(".").pop().toLowerCase();
     console.log(item.name);
     if (
-      !excludedExtensions.includes(fileExtension) &&
-      includeFiles.includes(item.name) // Check if the file is in the includeFiles list
+      !excludedExtensions.includes(fileExtension)
     ) {
-      if (item.type === "file") {
+      if (item.type === "file" && includeFiles.includes(item.name) ) {
         const dataUrl = item.download_url;
         try {
           const data = await fetchFileData(dataUrl);
