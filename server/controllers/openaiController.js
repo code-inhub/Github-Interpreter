@@ -103,6 +103,7 @@ exports.chatWithRepo = async (req, res) => {
           content: `Repository Code: ${code}`,
         },
       ],
+      stream: True,
     });
 
     if (data && data.choices[0].message.content) {
@@ -159,6 +160,7 @@ exports.repoAnalysisController = async (req, res) => {
           content: `Repository Code: ${code}`,
         },
       ],
+      stream: True,
     });
     
 
@@ -223,6 +225,7 @@ exports.handleErrorController = async (req, res) => {
         //   content: `File Structure: ${fileStructure}`,
         // },
       ],
+      stream: True,
     });
     ;
 
@@ -239,7 +242,7 @@ exports.handleErrorController = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({
+    return res.status(500).json({ 
       message: err.message,
     });
   }

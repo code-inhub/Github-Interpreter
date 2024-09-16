@@ -10,7 +10,7 @@ const fetchDataForDirectory = async (directoryUrl) => {
       const jsonData = await response.json();
       return jsonData;
     } else {
-      throw new Error("Error fetching data from the API.");
+      throw new Error("c hec 2Error fetching data from the API.");
     }
   } catch (err) {
     console.log(err);
@@ -79,6 +79,7 @@ const getFileNames = async (repo_url) => {
   }
 
   try {
+    console.log(url);
     const response = await fetch(url);
     if (response.ok) {
       const jsonData = await response.json(); // Get the initial directory content
@@ -87,7 +88,7 @@ const getFileNames = async (repo_url) => {
       cache.set(repo_url, result); // Cache the result
       return result; // Return the list of file names
     } else {
-      throw new Error("Error fetching data from the API.");
+      throw new Error("Error 5 fetching data from the API.");
     }
   } catch (err) {
     console.log(err);

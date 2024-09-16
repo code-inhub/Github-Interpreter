@@ -10,7 +10,7 @@ const processFiles = async (files, includeFiles) => {
         const data = await response.text();
         return data;
       } else {
-        throw new Error("Error fetching data from the API.");
+        throw new Error("check 1Error fetching data from the API.");
       }
     } catch (err) {
       console.log(err);
@@ -20,7 +20,7 @@ const processFiles = async (files, includeFiles) => {
   const excludedExtensions = [
     "jpg",
     "jpeg",
-    "png",
+    "png", 
     "gfg",
     "gif",
     "ico",
@@ -61,7 +61,7 @@ const fetchDataForDirectory = async (directoryUrl, includeFiles) => {
       const data = await processFiles(jsonData, includeFiles);
       return data;
     } else {
-      throw new Error("Error fetching data from the API.");
+      throw new Error(" check 3Error fetching data from the API.");
     }
   } catch (err) {
     console.log(err);
@@ -70,6 +70,7 @@ const fetchDataForDirectory = async (directoryUrl, includeFiles) => {
 
 const getGithubCode = async (repo_url, chatId) => {
   // Check if data is already cached
+  console.log(repo_url);
   let cachedData = cache.get(chatId);
   if (cachedData) {
     console.log("Returning cached data");
@@ -110,7 +111,7 @@ const getGithubCode = async (repo_url, chatId) => {
       console.log(data)
       return data;
     } else {
-      throw new Error("Error fetching data from the API.");
+      throw new Error("Error 4 fetching data from the API.");
     }
   } catch (err) {
     console.log(err);
