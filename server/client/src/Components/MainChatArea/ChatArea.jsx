@@ -103,7 +103,7 @@ const ChatArea = () => {
               />
             }
           />
-          <div className="flex gap-2 items-center justify-center">
+          <div className="flex flex-wrap gap-2 items-center justify-center w-[70%]">
             {" "}
             {files.length != 0 &&
               files?.map((file, key) => (
