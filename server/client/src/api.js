@@ -118,16 +118,19 @@ export const getAnswer = async (question, githubLink, chatId) => {
     console.log(question, githubLink, chatId);
     console.log(chatId);
     const { data } = await axios.post(
-      `http://localhost:8080/api/v1/chat/code-correction/${chatId}`,
+      `http://localhost:8080/api/v1/chat/chat-Repo/${chatId}`,
       {
         repoUrl: githubLink,
-        issue: question,
+        userMessageContent: question,
       },
       {
+        headers: {
+          "Content-Type": "application/json",
+        },
         withCredentials: true,
       }
     );
-    // console.log(data);
+    console.log(data);
     return data;
   } catch (error) {
     console.log(error);
