@@ -115,7 +115,7 @@ exports.chatWithRepo = async (req, res) => {
           content: `Repository Code: ${code}`,
         },
       ],
-      stream: true,
+      // stream: true,
     });
 
     if (data && data.choices[0].message.content) {
@@ -182,7 +182,7 @@ exports.repoAnalysisController = async (req, res) => {
           content: `Repository Code: ${code}`,
         },
       ],
-      stream: true,
+      // stream: true,
     });
 
     if (data && data.choices[0].message.content) {
@@ -207,7 +207,7 @@ exports.repoAnalysisController = async (req, res) => {
   } catch (err) {
     console.log(err);
     return res.status(500).json({
-      message: err.message,
+      message: err.message, 
     });
   }
 };
@@ -257,7 +257,7 @@ exports.handleErrorController = async (req, res) => {
         //   content: `File Structure: ${fileStructure}`,
         // },
       ],
-      stream: true,
+      // stream: true,
     });
     if (data && data.choices[0].message.content) {
       const userMessage = await Message.create({

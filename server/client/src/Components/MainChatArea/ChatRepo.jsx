@@ -70,7 +70,7 @@ const ChatRepo = () => {
                   ariaLabel="comment-loading"
                   wrapperStyle={{}}
                   wrapperClass="comment-wrapper"
-                  color="#800080"
+                  color="#ffffff"
                   backgroundColor="#800080"
                 />
               </div>

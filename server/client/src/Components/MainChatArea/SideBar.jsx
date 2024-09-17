@@ -98,6 +98,11 @@ const SideBar = () => {
         <button
           className="border hover:scale-110 transition-all border-white px-8 py-1 rounded-2xl backdrop-blur-2xl cursor-pointer mb-8 mt-2 ml-2"
           onClick={() => {
+            setMessages([]);
+            setGithubLink("");
+            setRepoAnalysisMessage("");
+            setErrorMessages([]);
+            
             isChatAnalysis
               ? setIsChatAnalysis(false)
               : isChatWithRepo

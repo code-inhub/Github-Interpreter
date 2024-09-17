@@ -29,6 +29,8 @@ const ChatArea = () => {
     setIsError,
     isDisplay,
     setIsDisplay,
+    isChatLoading,
+    setIsChatLoading
   } = useContext(AuthContext);
 
   const [files, setFiles] = useState([]);
@@ -39,6 +41,7 @@ const ChatArea = () => {
 
   const handleSubmit = (githubLink, type, selectedFiles) => {
     console.log(githubLink, type, selectedFiles);
+    setIsChatLoading(true);
 
     createChat(githubLink, type, selectedFiles)
       .then((data) => {
@@ -53,10 +56,12 @@ const ChatArea = () => {
             .then((analysisData) => {
               console.log("Repo Analysis Data:", analysisData);
               setRepoAnalysisMessage(analysisData?.aiMessage?.text);
+              setIsChatLoading(false);
             })
             .catch((error) => {
               toast.error("Error fetching Repo analysis");
               console.log("Error fetching Repo analysis:", error);
+              setIsChatLoading(false);
             });
         }
       })
