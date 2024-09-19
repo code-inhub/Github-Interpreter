@@ -6,6 +6,7 @@ import colouredGithub from "../styles/pics/GitHub Colored.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowAltCircleRight } from "react-icons/fa";
+import { getUser } from "../api";
 
 const lines = [
   {
@@ -24,18 +25,13 @@ const lines = [
     delay: 4,
   },
 ];
-
+ 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   const handleButtonClick = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/api/v1/auth/verify-token",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await getUser();
 
       if (response.status === 200) {
         navigate("/chatpage");

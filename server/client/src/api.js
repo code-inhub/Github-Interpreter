@@ -1,13 +1,13 @@
 import axios from "axios";
 import { get } from "mongoose";
 
-const baseURL = "http://localhost:8080/api/v1/auth";
+const baseURL = "URL";
 //localhost:8080/api/v1/auth/register
 export const register = async (username, email, password) => {
   try {
-    console.log(username, email, password);
+    // console.log(username, email, password);
     const { data } = await axios.post(
-      `${baseURL}/register`,
+      `${baseURL}/auth/register`,
       {
         username,
         email,
@@ -20,18 +20,18 @@ export const register = async (username, email, password) => {
         withCredentials: true,
       }
     );
-    console.log(response.data);
+    // console.log(response.data);
 
-    return response;
+    return data;
   } catch (err) {
     console.log(err);
-  }
+  } 
 };
 
 export const login = async (email, password) => {
   try {
     const response = await axios.post(
-      `${baseURL}/login`,
+      `${baseURL}/auth/login`,
       {
         email,
         password,
@@ -43,30 +43,26 @@ export const login = async (email, password) => {
         withCredentials: true,
       }
     );
-    console.log(response.data);
 
     return response;
   } catch (err) {
-    console.log(err);
   }
 };
 
 export const logout = async () => {
   try {
-    const response = await axios.get(`${baseURL}/logout`, {
+    const response = await axios.get(`${baseURL}/auth/logout`, {
       withCredentials: true,
     });
-    console.log(response);
 
     return response;
   } catch (err) {
-    console.log(err);
   }
 };
 
 export const getUser = async () => {
   const { data } = await axios.get(
-    "http://localhost:8080/api/v1/auth/verify-token",
+    `${baseURL}/auth/verify-token`,
     {
       withCredentials: true,
     }
@@ -77,26 +73,26 @@ export const getUser = async () => {
 
 export const getUserChat = async (userId) => {
   try {
-    console.log(userId);
     const { data } = await axios.get(
-      `http://localhost:8080/api/v1/chat/get-chat/${userId}`,
+      `${baseURL}/chat/get-chat/${userId}`,
       {
         withCredentials: true,
       }
     );
-    console.log(data.data);
+    // console.log(data.data);
     return data.data;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
 export const getToken = async () => {
   try {
     const { data } = await axios.get(
-      `http://localhost:8080/api/v1/auth/verify-token`,
+      `${baseURL}/auth/verify-token`,
       {
         withCredentials: true,
+        
       }
     );
 
@@ -118,7 +114,7 @@ export const getAnswer = async (question, githubLink, chatId) => {
     console.log(question, githubLink, chatId);
     console.log(chatId);
     const { data } = await axios.post(
-      `http://localhost:8080/api/v1/chat/chat-Repo/${chatId}`,
+      `${baseURL}/chat/chat-Repo/${chatId}`,
       {
         userMessageContent: question,
       },
@@ -142,7 +138,7 @@ export const getErrorMessages = async (githubLink, chatId, question) => {
   try {
     console.log("messages", githubLink, chatId, question);
     const { data } = await axios.post(
-      `http://localhost:8080/api/v1/chat/handle-error/${chatId}`,
+      `${baseURL}/chat/handle-error/${chatId}`,
       {
         errorDescription: question,
       },
@@ -165,7 +161,7 @@ export const getErrorMessages = async (githubLink, chatId, question) => {
 export const getFiles = async (githubLink) => {
   try {
     const { data } = await axios.post(
-      `http://localhost:8080/api/v1/chat/getFileNames`,
+      `${baseURL}/chat/getFileNames`,
       {
         repo_url: githubLink,
       },
@@ -189,7 +185,7 @@ export const createChat = async (githubLink, type, selectedFiles) => {
 
   try {
     const { data } = await axios.post(
-      `http://localhost:8080/api/v1/chat/create-chat`,
+      `${baseURL}/chat/create-chat`,
       {
         type,
         githubLink,
@@ -215,7 +211,7 @@ export const getChatAnalysis = async (chatId, githubLink) => {
   console.log(chatId);
   try {
     const { data } = await axios.post(
-      `http://localhost:8080/api/v1/chat/repo-analysis/${chatId}`,
+      `${baseURL}/chat/repo-analysis/${chatId}`,
       {
         repoUrl: githubLink,
       },
