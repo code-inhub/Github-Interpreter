@@ -1,7 +1,7 @@
 import axios from "axios";
 import { get } from "mongoose";
 
-const baseURL = "URL";
+const baseURL = "https://github-i-backend.onrender.com/api/v1";
 //localhost:8080/api/v1/auth/register
 export const register = async (username, email, password) => {
   try {
@@ -25,7 +25,7 @@ export const register = async (username, email, password) => {
     return data;
   } catch (err) {
     console.log(err);
-  } 
+  }
 };
 
 export const login = async (email, password) => {
@@ -45,8 +45,7 @@ export const login = async (email, password) => {
     );
 
     return response;
-  } catch (err) {
-  }
+  } catch (err) {}
 };
 
 export const logout = async () => {
@@ -56,29 +55,22 @@ export const logout = async () => {
     });
 
     return response;
-  } catch (err) {
-  }
+  } catch (err) {}
 };
 
 export const getUser = async () => {
-  const { data } = await axios.get(
-    `${baseURL}/auth/verify-token`,
-    {
-      withCredentials: true,
-    }
-  );
+  const { data } = await axios.get(`${baseURL}/auth/verify-token`, {
+    withCredentials: true,
+  });
 
   return data;
 };
 
 export const getUserChat = async (userId) => {
   try {
-    const { data } = await axios.get(
-      `${baseURL}/chat/get-chat/${userId}`,
-      {
-        withCredentials: true,
-      }
-    );
+    const { data } = await axios.get(`${baseURL}/chat/get-chat/${userId}`, {
+      withCredentials: true,
+    });
     // console.log(data.data);
     return data.data;
   } catch (error) {
@@ -88,13 +80,9 @@ export const getUserChat = async (userId) => {
 
 export const getToken = async () => {
   try {
-    const { data } = await axios.get(
-      `${baseURL}/auth/verify-token`,
-      {
-        withCredentials: true,
-        
-      }
-    );
+    const { data } = await axios.get(`${baseURL}/auth/verify-token`, {
+      withCredentials: true,
+    });
 
     //console.log(token);
 
