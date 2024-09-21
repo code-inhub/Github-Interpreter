@@ -1,8 +1,8 @@
 import axios from "axios";
 import { get } from "mongoose";
 
-const baseURL = "URL";
-//localhost:8080/api/v1/auth/register
+const baseURL = "http://localhost:8080/api/v1";
+//register
 export const register = async (username, email, password) => {
   try {
     // console.log(username, email, password);
@@ -19,7 +19,7 @@ export const register = async (username, email, password) => {
         },
         withCredentials: true,
       }
-    );
+    ); 
     // console.log(response.data);
 
     return data;

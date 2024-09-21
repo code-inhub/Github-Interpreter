@@ -32,8 +32,8 @@ const LandingPage = () => {
   const handleButtonClick = async () => {
     try {
       const response = await getUser();
-
-      if (response.status === 200) {
+      // console.log(response.success);
+      if (response.success === true) {
         navigate("/chatpage");
       } else {
         console.log("User is not logged in");
