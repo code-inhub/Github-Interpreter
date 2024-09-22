@@ -1,5 +1,4 @@
 import axios from "axios";
-import { get } from "mongoose";
 
 const baseURL = "http://localhost:8080/api/v1";
 //register
@@ -195,26 +194,59 @@ export const createChat = async (githubLink, type, selectedFiles) => {
   }
 };
 
-export const getChatAnalysis = async (chatId, githubLink) => {
-  console.log(chatId);
+// src/api/chatAnalysis.js
+export const getChatAnalysis = async (chatId, githubLink, onUpdate, onComplete, onError) => {
   try {
-    const { data } = await axios.post(
-      `${baseURL}/chat/repo-analysis/${chatId}`,
-      {
-        repoUrl: githubLink,
+    const response = await fetch(`${baseURL}/chat/repo-analysis/${chatId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
+      body: JSON.stringify({ repoUrl: githubLink }),
+      credentials: 'include', // If you need to send cookies or authentication headers
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+    let buffer = '';
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop(); // Save the last incomplete line
+
+      for (const line of lines) { 
+        // Check if the line starts with 'data: '
+        if (line.startsWith('data: ')) {
+          const data = line.replace('data: ', '').trim();
+          console.log(data);
+          // If the stream is finished
+          if (data === '[DONE]') { 
+            onComplete();
+            return;
+          }
+ 
+          // Process the streamed message
+          if (data) {
+            try {
+              onUpdate(data); // Call onUpdate callback with the message
+            } catch (e) {
+              console.error('Error processing stream data:', e);
+            }
+          } 
+        }
       }
-    );
+    }
 
-    console.log(data);
-
-    return data;
-  } catch (error) {
-    throw error;
+    onComplete(); // Call onComplete when the stream finishes
+  } catch (err) {
+    onError(err); // Call onError callback if an error occurs
   }
-};
+};  

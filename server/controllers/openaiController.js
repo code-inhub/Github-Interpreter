@@ -5,7 +5,7 @@ const { OpenAI } = require("openai");
 const Message = require("../models/messageModel");
 const Chat = require("../models/chatModel");
 const { getFileNames } = require("./scrapFileNames");
-
+const { Readable } = require('stream');
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
 const generateSummary = async (previousSummary, newQuestions, aiResponse) => {
@@ -192,6 +192,8 @@ exports.chatWithRepo = async (req, res) => {
   }
 };
 
+
+
 exports.repoAnalysisController = async (req, res) => {
   try {
     const { chatId } = req.params;
@@ -213,51 +215,94 @@ exports.repoAnalysisController = async (req, res) => {
         .json({ message: "Error retrieving chat", error: err.message });
     }
 
+    // Get code from GitHub repository
     const code = await getGithubCode(chat.githubLink, chatId);
 
-    const data = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: [
-        {
-          role: "system",
-          content:
-            "You are a code analysis assistant. Your task is to thoroughly analyze the provided code and give a detailed summary, explaining the structure, functionality, and key components. Highlight important features, coding patterns, and any potential issues or improvements.",
-        },
-        {
-          role: "user",
-          content: `Repository Code: ${code}`,
-        },
-      ],
-      // stream: true,
-    });
-
-    if (data && data.choices[0].message.content) {
-      const userMessage = await Message.create({
-        chatId,
-        text: "Repo Analysis Question(summarization)",
-        isUser: true,
-      });
-      const aiMessage = await Message.create({
-        chatId,
-        text: data.choices[0].message.content,
-        isUser: false,
-      });
-      chat.messages.push(userMessage._id);
-      chat.messages.push(aiMessage._id);
-      await chat.save();
-
-      return res.status(200).json({ userMessage, aiMessage });
-    } else {
-      return res.status(400).json({ message: "No valid response from OpenAI" });
+    if (!code || !code.trim()) {
+      return res.status(400).json({ message: "Code is empty or not found." });
     }
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({
-      message: err.message, 
+
+    // Set headers for streaming
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    // Create a Readable stream
+    const stream = new Readable({
+      read() {}
     });
+
+    stream.pipe(res);  // Pipe the readable stream to the response
+
+    let fullMessage = '';
+
+    try {
+      // Stream the response from OpenAI
+      const openaiStream = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a code analysis assistant. Your task is to thoroughly analyze the provided code and give a detailed summary, explaining the structure, functionality, and key components. Highlight important features, coding patterns, and any potential issues or improvements.",
+          },
+          {
+            role: "user",
+            content: `Repository Code: ${code}`,
+          },
+        ],
+        stream: true,
+      });
+
+      for await (const chunk of openaiStream) {
+        const message = chunk.choices[0]?.delta?.content || '';
+
+        // Check if the message is not empty
+        if (message.trim()) {
+          fullMessage += message;
+          stream.push(`data: ${message}\n\n`);
+        }
+      }
+
+      // Once streaming is done, close the stream
+      stream.push(null);
+    } catch (err) {
+      console.error("Error streaming from OpenAI:", err);
+      return res.status(500).json({ message: "Error streaming from OpenAI", error: err.message });
+    }
+
+    // Ensure we have a valid message before saving to the database
+    // console.log("Full message:", fullMessage);
+    if (fullMessage.trim()) {
+      try {
+        const userMessage = await Message.create({
+          chatId,
+          text: "Repo Analysis Question(summarization)",
+          isUser: true,
+        });
+        const aiMessage = await Message.create({
+          chatId,
+          text: fullMessage,
+          isUser: false,
+        });
+
+        chat.messages.push(userMessage._id);
+        chat.messages.push(aiMessage._id);
+        await chat.save();
+      } catch (dbErr) {
+        console.error("Error saving message to the database:", dbErr);
+        return res.status(500).json({ message: "Error saving message to the database", error: dbErr.message });
+      }
+    } else {
+      console.warn("No valid message to save to the database.");
+      return res.status(400).json({ message: "No valid message from OpenAI to save." });
+    }
+
+  } catch (err) {
+    console.error('Error:', err);
+    return res.status(500).json({ message: err.message });
   }
 };
-
 
 exports.handleErrorController = async (req, res) => {
   try {

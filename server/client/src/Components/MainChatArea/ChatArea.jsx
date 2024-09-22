@@ -44,31 +44,40 @@ const ChatArea = () => {
     setIsChatLoading(true);
 
     createChat(githubLink, type, selectedFiles)
-      .then((data) => {
-        setChatId(data.data._id);
-        //setGithubLink("");
-        setIsChatComing((prev) => !prev);
-        setIsDisplay(false);
-        console.log("chatid", chatId);
+    .then((data) => {
+      setChatId(data.data._id);
+      setIsChatComing((prev) => !prev);
+      setIsDisplay(false);
+      console.log("chatid", data.data._id);
 
-        if (type === "Repo Analysis") {
-          getChatAnalysis(data.data._id, githubLink)
-            .then((analysisData) => {
-              console.log("Repo Analysis Data:", analysisData);
-              setRepoAnalysisMessage(analysisData?.aiMessage?.text);
-              setIsChatLoading(false);
-            })
-            .catch((error) => {
-              toast.error("Error fetching Repo analysis");
-              console.log("Error fetching Repo analysis:", error);
-              setIsChatLoading(false);
-            });
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Failed to create chat");
-      });
+      if (type === "Repo Analysis") {
+        // Reset previous analysis message
+        setRepoAnalysisMessage('');
+
+        // Start streaming the analysis
+        getChatAnalysis(
+          data.data._id,
+          githubLink,
+          (newMessage) => {
+            setRepoAnalysisMessage((prev) => prev + newMessage);
+          },
+          () => {
+            setIsChatLoading(false);
+            console.log("Repo Analysis Complete");
+          },
+          (error) => {
+            toast.error("Error fetching Repo analysis");
+            console.error("Error fetching Repo analysis:", error);
+            setIsChatLoading(false);
+          }
+        );
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      toast.error("Failed to create chat");
+      setIsChatLoading(false);
+    });
   };
 
   const handleDisplay = async (githubLink) => {
