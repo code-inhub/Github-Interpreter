@@ -16,6 +16,8 @@ const AuthState = ({ children }) => {
   const [isDisplay, setIsDisplay] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const [isChatPage, setIsChatPage] = useState(false);
+
   const [isChatLoading, setIsChatLoading] = useState(false);
 
   return (
@@ -27,6 +29,8 @@ const AuthState = ({ children }) => {
         isChatAnalysis,
         isChatWithRepo,
         githubLink,
+        isChatPage,
+        setIsChatPage,
         isChatLoading,
         setIsChatLoading,
         isChatComing,

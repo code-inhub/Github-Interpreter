@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import Animate from "./Animate";
 import "../styles/landing.css";
@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import { getUser } from "../api";
+import AuthContext from "../context/auth/AuthContext";
 
 const lines = [
   {
@@ -25,22 +26,29 @@ const lines = [
     delay: 4,
   },
 ];
- 
+
 const LandingPage = () => {
   const navigate = useNavigate();
 
+  const { isChatPage } = useContext(AuthContext);
+
   const handleButtonClick = async () => {
-    try {
-      const response = await getUser();
-      // console.log(response.success);
-      if (response.success === true) {
-        navigate("/chatpage");
-      } else {
-        console.log("User is not logged in");
-        navigate("/login");
-      }
-    } catch (error) {
-      console.log("Error verifying token:", error);
+    // try {
+    //   const response = await getUser();
+    //   // console.log(response.success);
+    //   if (response.success === true) {
+    //     navigate("/chatpage");
+    //   } else {
+    //     console.log("User is not logged in");
+    //     navigate("/login");
+    //   }
+    // } catch (error) {
+    //   console.log("Error verifying token:", error);
+    //   navigate("/login");
+    // }
+
+    if (isChatPage) navigate("/chatpage");
+    else {
       navigate("/login");
     }
   };
