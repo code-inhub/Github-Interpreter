@@ -8,6 +8,42 @@ const { getFileNames } = require("./scrapFileNames");
 
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
+const generateSummary = async (previousSummary, newQuestions, aiResponse) => {
+  try {
+    const data = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: "You are a summarization assistant. Your task is to generate a concise summary incorporating the previous summary, new questions, and the latest AI response to maintain context for future queries.",
+        },
+        {
+          role: "user",
+          content: `Here is the previous summary of the conversation: ${previousSummary}`,
+        },
+        {
+          role: "user",
+          content: `These are the new questions from the user: ${newQuestions}`,
+        },
+        {
+          role: "user",
+          content: `This is the latest response from the AI: ${aiResponse}`,
+        },
+      ],
+    });
+    
+
+    if (data && data.choices[0].message.content) {
+      return data.choices[0].message.content;
+    } else {
+      throw new Error("No valid response from OpenAI");
+    }
+  } catch (err) {
+    console.error("Error generating summary:", err);
+    throw err;
+  }
+};
+
 exports.codeCorrectionController = async (req, res) => {
   try {
     const { chatId } = req.params;
@@ -74,6 +110,7 @@ exports.codeCorrectionController = async (req, res) => {
   }
 };
 
+
 exports.chatWithRepo = async (req, res) => {
   try {
     const { chatId } = req.params;
@@ -104,7 +141,11 @@ exports.chatWithRepo = async (req, res) => {
         {
           role: "system",
           content:
-            "You are a code assistant. Your task is to assist the user with their queries related to the provided repository. Provide detailed and accurate responses based on the user's message and the repository code. Give necessay codes and examples wherever necessary.",
+            "You are a code assistant. Your task is to assist the user with their queries related to the provided repository. Provide detailed and accurate responses based on the user's message and the repository code. Give necessary codes and examples wherever necessary.",
+        },
+        {
+          role: "user",
+          content: `Previous conversation summary: ${chat.summary}`,
         },
         {
           role: "user",
@@ -132,6 +173,11 @@ exports.chatWithRepo = async (req, res) => {
 
       chat.messages.push(userMessage._id);
       chat.messages.push(aiMessage._id);
+
+      const previousSummary = chat.summary || "";
+      const newSummary = await generateSummary(previousSummary, userMessageContent, data.choices[0].message.content);
+
+      chat.summary = newSummary; 
       await chat.save();
 
       return res.status(200).json({ userMessage, aiMessage });
@@ -212,6 +258,7 @@ exports.repoAnalysisController = async (req, res) => {
   }
 };
 
+
 exports.handleErrorController = async (req, res) => {
   try {
     const { chatId } = req.params;
@@ -237,12 +284,16 @@ exports.handleErrorController = async (req, res) => {
     const code = await getGithubCode(chat.githubLink, chatId);
 
     const data = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
           content:
             "You are an advanced error handling assistant. Your task is to analyze the provided error description, code, and file structure, and offer a detailed explanation of the error. Provide step-by-step corrections, explain why the changes are necessary, and suggest improvements where applicable.",
+        },
+        {
+          role: "user",
+          content: `Previous conversation summary: ${chat.summary}`,
         },
         {
           role: "user",
@@ -259,6 +310,7 @@ exports.handleErrorController = async (req, res) => {
       ],
       // stream: true,
     });
+
     if (data && data.choices[0].message.content) {
       const userMessage = await Message.create({
         chatId,
@@ -270,8 +322,15 @@ exports.handleErrorController = async (req, res) => {
         text: data.choices[0].message.content,
         isUser: false,
       });
+
       chat.messages.push(userMessage._id);
       chat.messages.push(aiMessage._id);
+
+      // Generate a new summary after the AI response is generated
+      const previousSummary = chat.summary || "";
+      const newSummary = await generateSummary(previousSummary, errorDescription, data.choices[0].message.content);
+
+      chat.summary = newSummary; // Store the new summary in the chat object
       await chat.save();
 
       return res.status(200).json({ userMessage, aiMessage });
@@ -285,7 +344,6 @@ exports.handleErrorController = async (req, res) => {
     });
   }
 };
-
 // Controller to get all file names from the repository
 exports.getFileNames = async (req, res) => {
   try {

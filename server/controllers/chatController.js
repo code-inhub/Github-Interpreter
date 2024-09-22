@@ -21,7 +21,7 @@ exports.createChat = async (req, res, next) => {
       return next(new errorResponse("User not found", 404));
     }
 
-    const chat = await Chat.create({ user: id, type, githubLink, filesSelected });
+    const chat = await Chat.create({ user: id, type, githubLink, filesSelected, summary: "" });
     user.chats.push(chat._id);
     await user.save();
 

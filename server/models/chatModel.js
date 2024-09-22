@@ -27,6 +27,9 @@ const chatSchema = new mongoose.Schema({
       required:true,
     },
   ],
+  summary: {
+    type: String,
+  },
 }, {
   timestamps: true,
 });
