@@ -15,6 +15,8 @@ const ChatRepo = () => {
     messages,
     setMessages,
     isChatLoading,
+    isChatRepoLoading,
+    setIsChatRepoLoading,
     setIsChatLoading,
   } = useContext(AuthContext);
   const [question, setQuestion] = useState("");
@@ -33,8 +35,8 @@ const ChatRepo = () => {
     // Make API request to get the answer
     try {
       console.log("running getANswer");
+      setIsChatRepoLoading(true);
 
-      setIsChatLoading(true);
       const answer = await getAnswer(question, githubLink, chatId);
       console.log(answer.aiMessage.text);
       setMessages([
@@ -42,10 +44,9 @@ const ChatRepo = () => {
         { isUser: false, text: answer.aiMessage.text },
       ]);
       console.log(messages);
-      setIsChatLoading(false);
     } catch (error) {
       console.error("Error fetching answer:", error);
-      setIsChatLoading(false);
+      setIsChatRepoLoading(false);
     }
   };
 
@@ -61,7 +62,7 @@ const ChatRepo = () => {
                 <Answer key={index} content={message?.text} />
               )
             )}
-            {isChatLoading && (
+            {isChatRepoLoading && (
               <div className="mt-1 fixed left-0">
                 <Comment
                   visible={true}
