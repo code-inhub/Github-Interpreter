@@ -47,7 +47,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login-page">
+    <div className="login-page fade-in-bg-login">
       {/* <ToastContainer /> */}
       {/* <div className="header">VidzSpace</div> */}
       <div className="hero">
