@@ -203,7 +203,7 @@ export const getChatAnalysis = async (chatId, githubLink, onUpdate, onComplete, 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ repoUrl: githubLink }),
-      credentials: 'include', // If you need to send cookies or authentication headers
+      credentials: 'include',
     });
 
     if (!response.ok) {
@@ -217,36 +217,32 @@ export const getChatAnalysis = async (chatId, githubLink, onUpdate, onComplete, 
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
-      
+
       buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
+
+      // Split by newline and make sure we handle various line endings
+      const lines = buffer.split(/\r?\n|\r|\n/);
       buffer = lines.pop(); // Save the last incomplete line
 
-      for (const line of lines) { 
-        // Check if the line starts with 'data: '
+      for (const line of lines) {
         if (line.startsWith('data: ')) {
-          const data = line.replace('data: ', '').trim();
-          console.log(data);
-          // If the stream is finished
-          if (data === '[DONE]') { 
+          const data = line.replace('data: ', '');
+
+          if (data === '[DONE]') {
             onComplete();
             return;
           }
- 
-          // Process the streamed message
+
           if (data) {
-            try {
-              onUpdate(data); // Call onUpdate callback with the message
-            } catch (e) {
-              console.error('Error processing stream data:', e);
-            }
-          } 
+            // Handle the chunk as markdown
+            onUpdate(data);
+          }
         }
       }
     }
 
-    onComplete(); // Call onComplete when the stream finishes
+    onComplete();
   } catch (err) {
-    onError(err); // Call onError callback if an error occurs
+    onError(err);
   }
-};  
+};
