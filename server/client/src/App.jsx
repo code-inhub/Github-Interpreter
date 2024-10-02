@@ -10,8 +10,14 @@ import { getUser, getToken } from "./api.js";
 import AuthContext from "./context/auth/AuthContext.jsx";
 
 const App = () => {
-  const { user, setUser, setUserChatList, userChatList } =
-    useContext(AuthContext);
+  const {
+    user,
+    setUser,
+    setUserChatList,
+    userChatList,
+    isChatPage,
+    setIsChatPage,
+  } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -27,6 +33,11 @@ const App = () => {
           location.pathname !== "/signup"
         ) {
           navigate("/");
+        }
+
+        if (!token) setIsChatPage(false);
+        else if (token) {
+          setIsChatPage(true);
         }
       } catch (error) {
         toast.error("Failed to get token");

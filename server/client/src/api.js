@@ -18,7 +18,7 @@ export const register = async (username, email, password) => {
         },
         withCredentials: true,
       }
-    ); 
+    );
     // console.log(response.data);
 
     return data;
@@ -195,12 +195,18 @@ export const createChat = async (githubLink, type, selectedFiles) => {
 };
 
 // src/api/chatAnalysis.js
-export const getChatAnalysis = async (chatId, githubLink, onUpdate, onComplete, onError) => {
+export const getChatAnalysis = async (
+  chatId,
+  githubLink,
+  onUpdate,
+  onComplete,
+  onError
+) => {
   try {
     const response = await fetch(`${baseURL}/chat/repo-analysis/${chatId}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ repoUrl: githubLink }),
       credentials: 'include',
@@ -211,12 +217,13 @@ export const getChatAnalysis = async (chatId, githubLink, onUpdate, onComplete, 
     }
 
     const reader = response.body.getReader();
-    const decoder = new TextDecoder('utf-8');
-    let buffer = '';
+    const decoder = new TextDecoder("utf-8");
+    let buffer = "";
 
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
+
 
       buffer += decoder.decode(value, { stream: true });
 
@@ -245,4 +252,5 @@ export const getChatAnalysis = async (chatId, githubLink, onUpdate, onComplete, 
   } catch (err) {
     onError(err);
   }
+};
 };

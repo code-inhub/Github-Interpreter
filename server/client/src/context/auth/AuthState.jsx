@@ -16,7 +16,11 @@ const AuthState = ({ children }) => {
   const [isDisplay, setIsDisplay] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const [isChatPage, setIsChatPage] = useState(false);
+
   const [isChatLoading, setIsChatLoading] = useState(false);
+
+  const [isChatRepoLoading, setIsChatRepoLoading] = useState(false);
 
   return (
     <AuthContext.Provider
@@ -24,9 +28,13 @@ const AuthState = ({ children }) => {
         user,
         isError,
         isAuthenticated,
+        isChatRepoLoading,
+        setIsChatRepoLoading,
         isChatAnalysis,
         isChatWithRepo,
         githubLink,
+        isChatPage,
+        setIsChatPage,
         isChatLoading,
         setIsChatLoading,
         isChatComing,

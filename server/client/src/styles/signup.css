@@ -1,3 +1,16 @@
+@keyframes fadeInBackground {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in-bg-signup {
+  animation: fadeInBackground 2s ease-in-out forwards;
+}
+
 .login-page {
   background-image: url("./pics/mount.jpg");
   background-size: cover;

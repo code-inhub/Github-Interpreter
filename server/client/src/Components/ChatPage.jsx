@@ -49,7 +49,7 @@ const ChatPage = () => {
   }, [isChatComing]);
 
   return (
-    <div className="relative background-chat container max-w-full h-[100vh] w-[100vw] flex gap-2">
+    <div className="relative background-chat container max-w-full fade-in-bg-chat h-[100vh] w-[100vw] flex gap-2">
       {/* Sidebar for chat history */}
       <SideBar />
 
